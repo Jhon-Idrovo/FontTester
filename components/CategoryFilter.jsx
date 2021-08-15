@@ -6,7 +6,23 @@ const categories = [
   { category: "display", exp: "Lobster" },
 ];
 
-function CategoryFilter({ filters, handleCategoryFilter }) {
+function CategoryFilter({ filters, setTexts }) {
+  /**
+   * Removes or adds the category to the active text area filters accordingly
+   * @param {string} category one of the 5 google font categories
+   */
+  const handleCategoryFilter = (category) => {
+    //add the category to the filters array on the texts variable if it's in it. Otherwise
+    //remove it
+    setTexts((texts) => {
+      const activeTextFilters = texts[activeTextIndex].filters;
+      activeTextFilters.includes(category)
+        ? activeTextFilters.splice(activeTextFilters.indexOf(category), 1)
+        : activeTextFilters.push(category);
+      //force re-rendering
+      return JSON.parse(JSON.stringify(texts));
+    });
+  };
   return (
     <div className="flex w-full justify-center ml-11">
       {/* {categories.map((category) => (

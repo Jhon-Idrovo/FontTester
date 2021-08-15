@@ -1,6 +1,9 @@
-import { auth } from "../lib/firebase";
 import axios from "axios";
-
+import { IGoogleFont } from "../hooks/useGoogleFonts";
+export declare interface IFetchOptions {
+  body?: {};
+  method: "GET" | "POST" | "PUT" | "PATCH";
+}
 //fetch from server
 /**
  * Uses a new firebase token as Authorization header on each request.
@@ -9,15 +12,11 @@ import axios from "axios";
  * @param {object} opts body:{}
  * @returns a promise that resolves to the data fetched (if any)
  */
-export async function fetchFromAPI(endpointURL, opts) {
+export async function fetchFromAPI(endpointURL: string, opts: IFetchOptions) {
   const { body, method } = opts;
   //const API = "https://find-a-font-api.herokuapp.com";
-  const API = "http://localhost:3333";
-  const user = auth.currentUser;
-  //the token's expiration time is short so we need to generate
-  //a new one after each request
-  const token = user ? await user.getIdToken() : "";
-  console.log("request roken", token);
+  const API = "http://localhost:8000";
+
   const res = await axios.request({
     method: method ? method : "POST",
     url: `${API}${endpointURL}`,
@@ -30,3 +29,5 @@ export async function fetchFromAPI(endpointURL, opts) {
 
   return res.data;
 }
+
+export function blacklistFont(font: IGoogleFont) {}

@@ -4,3 +4,8 @@ export declare interface IUser {
   roles: string[];
   _id: string;
 }
+
+export declare interface IText {
+  fontIndex: number;
+  filters: string[] | number[] | [];
+}

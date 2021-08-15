@@ -6,7 +6,9 @@ export const defaultUser: IUser = {
   name: "",
   roles: ["Guest"],
 };
+//use this initial state to avoid using |null and get typecheking
+//whithout verifying for null values
 export const UserContext = createContext<{
   user: IUser;
   setUser: Dispatch<SetStateAction<IUser>>;
-} | null>(null);
+}>({ user: defaultUser, setUser: () => false });

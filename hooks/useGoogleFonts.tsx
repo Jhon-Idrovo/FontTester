@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 
 export declare interface IGoogleFont {
   family: string;
+  category: string;
 }
 
 /**
@@ -25,7 +26,11 @@ const useGoogleFonts = () => {
       throw Error("Something went wring while fetching the fonts");
     }
   });
-  return { googleFonts, GFError, isLoadingGF: isLoading || isFetching };
+  return { googleFonts, GFError, isLoadingGF: isLoading || isFetching } as {
+    googleFonts: IGoogleFont[];
+    GFError: Error;
+    isLoadingGF: boolean;
+  };
 };
 
 export default useGoogleFonts;

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import TextArea from "../components/TextArea";
 import LikedFonts from "../components/LikedFonts";
@@ -9,13 +9,18 @@ import useUser from "../hooks/useUser";
 import { useQuery } from "react-query";
 
 import CategoryFilter from "../components/CategoryFilter";
-import { fetchFontsList } from "../lib/utils";
 import useBlacklistedFonts from "../hooks/useBlacklistedFonts";
 import useGoogleFonts from "../hooks/useGoogleFonts";
+import { IText } from "../lib/interfaces";
+import { blacklistFont } from "../lib/utils";
 
 export default function Home() {
   //fetch google fonts
-  const { googleFonts, isLoadingGF, GFError } = useGoogleFonts();
+  const {
+    googleFonts: fonts,
+    isLoadingGF: isLoadingFonts,
+    GFError,
+  } = useGoogleFonts();
   //--------------------TEXT AREAS ----------------
   const { user, isLoadingUser } = useUser();
   //once the user is loaded (if there's one, we need its blacklisted fonts)
@@ -24,7 +29,7 @@ export default function Home() {
     fonts: blFonts,
     isLoading: isLoadignBlFonts,
   } = useBlacklistedFonts();
-  const [texts, setTexts] = useState([
+  const [texts, setTexts] = useState<IText[]>([
     { fontIndex: 0, filters: blFonts ? blFonts : [] },
     { fontIndex: 0, filters: blFonts ? blFonts : [] },
   ]);
@@ -36,7 +41,7 @@ export default function Home() {
    * Otherwise make a recursive call to handleFontChange with a change of +2.
    * @param {-1 or 1} change Only in the case of recursive calls the value of change will be 2
    */
-  const handleFontChange = (change) => {
+  const handleFontChange = (change: number) => {
     setTexts((texts) => {
       const currentText = texts[activeTextIndex];
       const nextFont = fonts[currentText.fontIndex + change];
@@ -65,22 +70,7 @@ export default function Home() {
       return JSON.parse(JSON.stringify(texts));
     });
   };
-  /**
-   * Removes or adds the category to the active text area filters accordingly
-   * @param {string} category one of the 5 google font categories
-   */
-  const handleCategoryFilter = (category) => {
-    //add the category to the filters array on the texts variable if it's in it. Otherwise
-    //remove it
-    setTexts((texts) => {
-      const activeTextFilters = texts[activeTextIndex].filters;
-      activeTextFilters.includes(category)
-        ? activeTextFilters.splice(activeTextFilters.indexOf(category), 1)
-        : activeTextFilters.push(category);
-      //force re-rendering
-      return JSON.parse(JSON.stringify(texts));
-    });
-  };
+
   //BLACKLIST FONT
   /**
    * Put the font on the filters. If the user is pro
@@ -88,14 +78,12 @@ export default function Home() {
    */
   function doNotShowFont() {
     setTexts((texts) => {
-      texts[activeTextIndex].filters = [
-        ...texts[activeTextIndex].filters,
-        texts[activeTextIndex].fontIndex,
-      ];
+      let filters = texts[activeTextIndex].filters;
+      filters = [...filters, texts[activeTextIndex].fontIndex];
       //if the user is PRO blacklist the font on the server too
-      if (user?.subscriptionType === "PRO") {
+      if (user.roles.includes("Pro User")) {
         const font = fonts[texts[activeTextIndex].fontIndex];
-        blacklistFont(font, user);
+        blacklistFont(font);
       }
       //to force re-rendering
       return JSON.parse(JSON.stringify(texts));
@@ -105,12 +93,12 @@ export default function Home() {
   }
 
   //SAVE AND SHOW LIKED FONTS
-  const [liked, setLiked] = useState([]);
+  const [liked, setLiked] = useState<string[]>([]);
   const saveFonts = () => {
     //save the current font(s) when "SAVE THIS" is pressed
     setLiked((prev) => [...prev, texts.map((t) => fonts[t.fontIndex].family)]);
   };
-  const handleRemoveFont = (likedIndex) => {
+  const handleRemoveFont = (likedIndex: number) => {
     setLiked((prev) => {
       prev.splice(likedIndex, 1);
       return JSON.parse(JSON.stringify(prev));
@@ -124,18 +112,17 @@ export default function Home() {
   //TEXTS CONFIG
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [config, setConfig] = useState({ bgCol: "#FFFFFF", txtCol: "#000000" });
-  const handleConfigSubmit = (e) => {
+  const handleConfigSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(e);
     const txtCol = e.target[0].value;
     const bgCol = e.target[1].value;
     setConfig({ bgCol, txtCol });
   };
   useEffect(() => {
-    function clickOutsideHandler(e) {
+    function clickOutsideHandler(e: MouseEvent) {
       if (
-        e.currentTarget.id !== "config-menu" &&
-        e.currentTarget.id !== "config-menu-btn"
+        e.currentTarget?.id !== "config-menu" &&
+        e.currentTarget?.id !== "config-menu-btn"
       ) {
         setIsConfigOpen(false);
       }
@@ -312,14 +299,14 @@ export default function Home() {
             <div className="flex justify-end mx-1 my-0">
               <CategoryFilter
                 filters={texts[activeTextIndex].filters}
-                handleCategoryFilter={handleCategoryFilter}
+                setTexts={setTexts}
               />
               <button
                 onClick={() => setIsConfigOpen((prev) => !prev)}
                 className="mx-1"
                 id="config-menu-btn"
               >
-                <i class="fas fa-ellipsis-h"></i>
+                <i className="fas fa-ellipsis-h"></i>
               </button>
               <ul
                 id="config-menu"
