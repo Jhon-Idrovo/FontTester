@@ -1,5 +1,9 @@
 {
-  "extends": ["tslint:recommended", "tslint-react"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "plugin:react-hooks/recommended"
+  ],
   "rules": {
     "trailing-comma": false,
     "arrow-parens": false,

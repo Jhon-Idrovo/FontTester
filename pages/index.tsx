@@ -8,20 +8,16 @@ import Loading from "../components/Loading";
 import useUser from "../hooks/useUser";
 import { useQuery } from "react-query";
 
-import { blacklistFont, getBlacklistedFonts } from "../lib/firebaseUser";
 import CategoryFilter from "../components/CategoryFilter";
 import { fetchFontsList } from "../lib/utils";
 import useBlacklistedFonts from "../hooks/useBlacklistedFonts";
+import useGoogleFonts from "../hooks/useGoogleFonts";
 
 export default function Home() {
   //fetch google fonts
-  const {
-    data: fonts,
-    error,
-    isLoading: isLoadingFonts,
-  } = useQuery("fonts", fetchFontsList);
+  const { googleFonts, isLoadingGF, GFError } = useGoogleFonts();
   //--------------------TEXT AREAS ----------------
-  const { user, logOut, isLoadingUser } = useUser();
+  const { user, isLoadingUser } = useUser();
   //once the user is loaded (if there's one, we need its blacklisted fonts)
   const {
     error: blFontsError,
