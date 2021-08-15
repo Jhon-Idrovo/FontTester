@@ -8,7 +8,6 @@ import SignInPopup from "./SignInPopup";
 function NavBar() {
   const router = useRouter();
   const [isShowingSignIn, setIsShowingSignIn] = useState(false);
-  const [isShowingLogOut, setIsShowingLogOut] = useState(false);
 
   const { user, logOut, isLoadingUser } = useUser();
   if (isLoadingUser) {
@@ -17,7 +16,7 @@ function NavBar() {
   return (
     <nav className=" p-2 h-10 flex justify-between items-center  bg-base text-txt-base border-b-2 border-secondary">
       <Link href="/">
-        <a>Find A Font</a>
+        <a>Font Tester</a>
       </Link>
       <ul className="flex justify-between items-center">
         <li
@@ -29,7 +28,7 @@ function NavBar() {
             <a>Test Fonts</a>
           </Link>
         </li>
-        {user != "guest" && user != null ? (
+        {user.roles != ["Guest"] && user != null ? (
           <>
             <li
               className={`nav-list-item ${
@@ -64,7 +63,7 @@ function NavBar() {
                 id="user-icon"
                 className="w-8 h-8 bg-primary text-txt-primary"
               >
-                {user.displayName.charAt(0)}
+                {user.name.charAt(0)}
                 <ul className="user-icon-menu absolute right-0 top-8 z-50">
                   <li>
                     <button onClick={logOut}>Log Out</button>
