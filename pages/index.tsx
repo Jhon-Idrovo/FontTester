@@ -135,7 +135,7 @@ export default function Home() {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   //SETTING UP LISTENERS FOR THE KEYS
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: KeyboardEvent) => {
     const { key } = e;
     key === "ArrowUp" ? doNotShowFont() : null;
     key === "ArrowDown" ? saveFonts() : null;

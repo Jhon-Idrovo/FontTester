@@ -1,9 +1,17 @@
-import { saveLikedFonts } from "../lib/firebaseUser";
 import useUser from "../hooks/useUser";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
+import { saveLikedFonts } from "../lib/utils";
 
-function LikedFonts({ fonts, goBack, handleRemoveFont }) {
+function LikedFonts({
+  fonts,
+  goBack,
+  handleRemoveFont,
+}: {
+  fonts: string[][];
+  goBack: MouseEventHandler;
+  handleRemoveFont: Function;
+}) {
   const { user } = useUser();
   console.log(fonts);
   if (fonts.length === 0) {
@@ -34,9 +42,9 @@ function LikedFonts({ fonts, goBack, handleRemoveFont }) {
         </div>
       ))}
 
-      {(user != null) & (user.subscriptionType === "PRO") ? (
+      {user.roles !== ["Guest"] ? (
         <button
-          onClick={() => saveLikedFonts(fonts, user.id)}
+          onClick={() => saveLikedFonts(fonts)}
           className="btn block mt-8 px-4 w-max mx-auto"
         >
           Save
@@ -56,8 +64,8 @@ export default LikedFonts;
 function DisabledBtn() {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   useEffect(() => {
-    function listenClickOutside(e) {
-      if (e.currentTarget.id !== "tooltip") {
+    function listenClickOutside(e: MouseEvent) {
+      if (e.currentTarget?.id !== "tooltip") {
         setIsTooltipOpen(false);
       }
     }

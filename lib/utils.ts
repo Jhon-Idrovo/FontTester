@@ -31,3 +31,4 @@ export async function fetchFromAPI(endpointURL: string, opts: IFetchOptions) {
 }
 
 export function blacklistFont(font: IGoogleFont) {}
+export function saveLikedFonts(fonts: IGoogleFont["family"][][]) {}
