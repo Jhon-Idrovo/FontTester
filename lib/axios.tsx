@@ -6,11 +6,13 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    Authorization:
-      typeof window !== "undefined" ? "JWT " + localStorage.getItem("ss") : "",
   },
 });
-
+axiosInstance.interceptors.request.use((reqConfig) => {
+  console.log(reqConfig);
+  reqConfig.headers.Auhtorization = localStorage.getItem("ss");
+  return reqConfig;
+});
 axiosInstance.interceptors.response.use(
   //on fulfill
   (res) => res,

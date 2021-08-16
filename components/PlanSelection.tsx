@@ -5,6 +5,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
 import axiosInstance from "../lib/axios";
+import { PaymentMethodResult, StripeCardElement } from "@stripe/stripe-js";
 
 export default function PlanSelection() {
   const router = useRouter();
@@ -26,27 +27,28 @@ export default function PlanSelection() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const card = elemets?.getElement(CardElement);
+    const card = elemets?.getElement(CardElement) as StripeCardElement;
     const { paymentMethod, error } = await stripe?.createPaymentMethod({
       type: "card",
       card,
-    });
+    }) as PaymentMethodResult;
     if (error) {
       console.log(error);
-      setErrMsg(error.message);
+      setErrMsg(error.message as string);
       return;
     } else {
-      const { latest_invoice } = await axiosInstance
+      const {payment_intent } = await axiosInstance
         .post("/subscriptions/create", {
-          data: { priceId, paymentMethod: paymentMethod.id },
+          priceId,
+          paymentMethod: paymentMethod?.id,
         })
         .catch((err) => setErrMsg(err.response.data.error.message));
 
-      //the subscription contains the invoice with the payment intent that tells if the payment has been made
+      //the payment intent that tells if the payment has been made
       //if the invoice's payment succeeded then we don't need to do anything
       //otherwise, confirmation is needed
-      if (latest_invoice.payment_intent) {
-        const { client_secret, status } = latest_invoice.payment_intent;
+      if (payment_intent) {
+        const { client_secret, status } = payment_intent;
         //if 3d verification is needed
         if (
           status === "requires_action" ||
