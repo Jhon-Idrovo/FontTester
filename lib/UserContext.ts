@@ -4,7 +4,7 @@ export const defaultUser: IUser = {
   _id: "",
   email: "",
   name: "",
-  roles: ["Guest"],
+  role: "Guest",
 };
 //use this initial state to avoid using |null and get typecheking
 //whithout verifying for null values

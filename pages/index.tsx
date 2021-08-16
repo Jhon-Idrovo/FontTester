@@ -81,7 +81,7 @@ export default function Home() {
       let filters = texts[activeTextIndex].filters;
       filters = [...filters, texts[activeTextIndex].fontIndex];
       //if the user is PRO blacklist the font on the server too
-      if (user.roles.includes("Pro User")) {
+      if (user.role === 'User') {
         const font = fonts[texts[activeTextIndex].fontIndex];
         blacklistFont(font);
       }
@@ -93,7 +93,7 @@ export default function Home() {
   }
 
   //SAVE AND SHOW LIKED FONTS
-  const [liked, setLiked] = useState<string[]>([]);
+  const [liked, setLiked] = useState<string[][]>([]);
   const saveFonts = () => {
     //save the current font(s) when "SAVE THIS" is pressed
     setLiked((prev) => [...prev, texts.map((t) => fonts[t.fontIndex].family)]);

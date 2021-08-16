@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchFromAPI } from "../lib/utils";
 import useUser from "./useUser";
@@ -25,7 +24,7 @@ const useBlacklistedFonts = () => {
       fetchFromAPI("/fonts/blacklisted", { method: "GET" }).then(
         (res) => res.data
       ),
-    { enabled: !(user.roles === ["Guest"]) }
+    { enabled: !(user.role === "Guest") }
   );
 
   return user

@@ -117,3 +117,11 @@ p {
 .filter-item:hover span {
   @apply inline;
 }
+
+/* FORM */
+.form-container {
+  @apply m-2;
+}
+.bg-secondary-input {
+  @apply pl-2 bg-txt-base mx-0 my-1 rounded-md;
+}

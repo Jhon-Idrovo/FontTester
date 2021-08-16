@@ -42,7 +42,7 @@ function LikedFonts({
         </div>
       ))}
 
-      {user.roles !== ["Guest"] ? (
+      {user.role !== "Guest" ? (
         <button
           onClick={() => saveLikedFonts(fonts)}
           className="btn block mt-8 px-4 w-max mx-auto"

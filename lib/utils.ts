@@ -1,33 +1,33 @@
-import axios from "axios";
 import { IGoogleFont } from "../hooks/useGoogleFonts";
+import axiosInstance from "./axios";
 export declare interface IFetchOptions {
   body?: {};
   method: "GET" | "POST" | "PUT" | "PATCH";
 }
 //fetch from server
 /**
- * Uses a new firebase token as Authorization header on each request.
- * token!=uid but token.uid is valid
+ *Uses the axios instance with the request token (if existent)
  * @param {string} endpointURL starting with /
  * @param {object} opts body:{}
  * @returns a promise that resolves to the data fetched (if any)
  */
 export async function fetchFromAPI(endpointURL: string, opts: IFetchOptions) {
   const { body, method } = opts;
-  //const API = "https://find-a-font-api.herokuapp.com";
-  const API = "http://localhost:8000";
+  console.log(body, method);
+  let data;
+  try {
+    const res = await axiosInstance.request({
+      method: method ? method : "POST",
+      url: endpointURL,
+      data: body ? body : {},
+    });
 
-  const res = await axios.request({
-    method: method ? method : "POST",
-    url: `${API}${endpointURL}`,
-    data: body ? { ...body } : {},
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    return res.data;
+  } catch (error) {
+    console.log(error);
 
-  return res.data;
+    return alert(error);
+  }
 }
 
 export function blacklistFont(font: IGoogleFont) {}

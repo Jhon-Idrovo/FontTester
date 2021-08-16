@@ -25,8 +25,8 @@ export default function PlanSelection() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const card = elemets.getElement(CardElement);
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
+    const card = elemets?.getElement(CardElement);
+    const { paymentMethod, error } = await stripe?.createPaymentMethod({
       type: "card",
       card,
     });
@@ -60,6 +60,7 @@ export default function PlanSelection() {
           } else {
             //success
             alert("You are subscribed");
+            //reload the page to fetch the user again?
             setUser((prev) => ({ ...prev, subscriptionType: "PRO" }));
             router.push("/");
           }

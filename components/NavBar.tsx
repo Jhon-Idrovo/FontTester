@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import { useState } from "react";
 import useUser from "../hooks/useUser";
+import { IRole } from "../lib/interfaces";
 import SignInPopup from "./SignInPopup";
 
 function NavBar() {
@@ -28,7 +29,7 @@ function NavBar() {
             <a>Test Fonts</a>
           </Link>
         </li>
-        {user.roles != ["Guest"] && user != null ? (
+        {user.role !== "Guest" ? (
           <>
             <li
               className={`nav-list-item ${

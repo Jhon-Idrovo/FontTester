@@ -1,7 +1,6 @@
-import FirebaseAuth from "../components/FirebaseAuth";
-import PlanSelection from "../components/PlanSelection";
 import useUser from "../hooks/useUser";
-
+import PlanSelection from "../components/PlanSelection";
+import SignUpForm from "../components/SignUpForm";
 const texts = [
   {
     t: "Collections",
@@ -36,12 +35,12 @@ function SignUp() {
           <p className="text-2xl	">
             Create an account or sign in with you prefered account
           </p>
-          {(user != null) & (user != "guest") ? (
+          {user.role !== "Guest" ? (
             <div className="flex items-center justify-center w-full h-2/3">
-              <i class="fas fa-check  text-5xl"></i>
+              <i className="fas fa-check  text-5xl"></i>
             </div>
           ) : (
-            <FirebaseAuth />
+            <SignUpForm />
           )}
         </div>
         <div className="signup-proccess-section">
@@ -57,7 +56,7 @@ function SignUp() {
 
 export default SignUp;
 
-function FunctionalityShowcase({ t, d }) {
+function FunctionalityShowcase({ t, d }: { t: string; d: string }) {
   return (
     <div className="bg-secondary mx-6 p-2">
       <h4 className="w-max mx-auto text-xl font-medium text-txt-secondary">
