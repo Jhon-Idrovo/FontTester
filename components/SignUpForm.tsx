@@ -1,22 +1,34 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+
 import useUser from "../hooks/useUser";
-import { fetchFromAPI } from "../lib/utils";
+import axiosInstance from "../lib/axios";
 
 function SignUpForm() {
   const { setUser } = useUser();
+  const [error, setError] = useState<string>("");
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     console.log(e);
-
-    const newUser = await fetchFromAPI("/auth/signup", {
-      body: {
-        username: e.target[0].value,
+    const data = await axiosInstance
+      .post("/auth/signup", {
+        username: (e.target[0] as HTMLInputElement).value,
         email: e.target[1].value,
         password: e.target[2].value,
-      },
-      method: "POST",
-    });
-    newUser ? setUser(newUser) : null;
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err.response);
+        setError(err.response.data.error.message);
+        return false;
+      });
+    if (data) {
+      setUser(data.user);
+      const aTkn = data.accessToken;
+      const rTkn = data.refreshToken;
+      axiosInstance.defaults.headers.Autorization = "JWT " + aTkn;
+      localStorage.setItem("ss", aTkn);
+      localStorage.setItem("rr", rTkn);
+    }
   };
   return (
     <form className="bg-secondary text-txt-secondary" onSubmit={handleSubmit}>
@@ -41,6 +53,9 @@ function SignUpForm() {
         name="password"
         className="bg-secondary-input"
       />
+      {error ? (
+        <div className="text-alert mx-auto font-medium">{error}</div>
+      ) : null}
       <input
         type="submit"
         value="Submit"

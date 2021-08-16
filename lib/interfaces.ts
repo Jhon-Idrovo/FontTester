@@ -1,6 +1,6 @@
 export declare type IRole = "Guest" | "User";
 export declare interface IUser {
-  name: string;
+  username: string;
   email: string;
   role: IRole;
   _id: string;

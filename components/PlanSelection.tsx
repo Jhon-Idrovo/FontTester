@@ -1,15 +1,16 @@
-import { useState, useContext } from "react";
-import { fetchFromAPI } from "../lib/utils";
+import { useState } from "react";
 
 //elements
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
+import axiosInstance from "../lib/axios";
 
 export default function PlanSelection() {
   const router = useRouter();
   const { user, setUser } = useUser();
   const [priceId, setPriceId] = useState();
+  const [errMsg, setErrMsg] = useState<string>("");
   const elemets = useElements();
   const stripe = useStripe();
   const cardOptions = {
@@ -32,12 +33,14 @@ export default function PlanSelection() {
     });
     if (error) {
       console.log(error);
+      setErrMsg(error.message);
       return;
     } else {
-      const { latest_invoice } = await fetchFromAPI("/subscriptions/create", {
-        body: { priceId, paymentMethod: paymentMethod.id },
-        method: "POST",
-      });
+      const { latest_invoice } = await axiosInstance
+        .post("/subscriptions/create", {
+          data: { priceId, paymentMethod: paymentMethod.id },
+        })
+        .catch((err) => setErrMsg(err.response.data.error.message));
 
       //the subscription contains the invoice with the payment intent that tells if the payment has been made
       //if the invoice's payment succeeded then we don't need to do anything
@@ -56,6 +59,10 @@ export default function PlanSelection() {
             console.log(
               "An error happened trying to confirm the card payment:",
               confirmationError
+            );
+            setErrMsg(
+              "An error happened trying to confirm the card payment:" +
+                confirmationError.message
             );
           } else {
             //success
@@ -111,11 +118,11 @@ export default function PlanSelection() {
         />
         <button
           className="btn px-6 py-1 w-max mx-auto mt-8 table"
-          disabled={!user | (user === "guest")}
+          disabled={!user || user.role === "Guest"}
         >
           Join
         </button>
-        {!user | (user === "guest") ? (
+        {!user || user.role === "Guest" ? (
           <p className="text-alert w-max mx-auto font-medium">
             Please create a user first
           </p>
@@ -124,6 +131,9 @@ export default function PlanSelection() {
           <p className="text-alert w-max mx-auto font-medium">
             Please select a plan first
           </p>
+        ) : null}
+        {errMsg ? (
+          <p className="text-alert w-max mx-auto font-medium">{errMsg}</p>
         ) : null}
       </form>
     </div>

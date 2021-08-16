@@ -64,7 +64,7 @@ function NavBar() {
                 id="user-icon"
                 className="w-8 h-8 bg-primary text-txt-primary"
               >
-                {user.name.charAt(0)}
+                {user.username.charAt(0)}
                 <ul className="user-icon-menu absolute right-0 top-8 z-50">
                   <li>
                     <button onClick={logOut}>Log Out</button>

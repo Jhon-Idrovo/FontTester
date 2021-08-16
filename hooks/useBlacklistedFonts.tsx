@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
-import { fetchFromAPI } from "../lib/utils";
 import useUser from "./useUser";
 import { IGoogleFont } from "./useGoogleFonts";
+import axiosInstance from "../lib/axios";
 type returnObj = {
   error: Error | null;
   isLoading: boolean;
@@ -20,10 +20,7 @@ const useBlacklistedFonts = () => {
     data: fonts,
   } = useQuery(
     ["blacklisted"],
-    () =>
-      fetchFromAPI("/fonts/blacklisted", { method: "GET" }).then(
-        (res) => res.data
-      ),
+    () => axiosInstance.get("/fonts/blacklisted").then((res) => res.data),
     { enabled: !(user.role === "Guest") }
   );
 
