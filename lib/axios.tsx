@@ -8,11 +8,11 @@ const axiosInstance = axios.create({
     Accept: "application/json",
   },
 });
-axiosInstance.interceptors.request.use((reqConfig) => {
-  console.log(reqConfig);
-  reqConfig.headers.Auhtorization = localStorage.getItem("ss");
-  return reqConfig;
-});
+// axiosInstance.interceptors.request.use((reqConfig) => {
+//   console.log(reqConfig);
+//   reqConfig.headers.Auhtorization = localStorage.getItem("ss");
+//   return reqConfig;
+// });
 axiosInstance.interceptors.response.use(
   //on fulfill
   (res) => res,

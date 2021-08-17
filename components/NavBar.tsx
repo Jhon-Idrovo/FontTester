@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 
 import { useState } from "react";
 import useUser from "../hooks/useUser";
-import { IRole } from "../lib/interfaces";
 import SignInPopup from "./SignInPopup";
 
 function NavBar() {

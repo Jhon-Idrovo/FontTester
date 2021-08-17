@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 //elements
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
 import axiosInstance from "../lib/axios";
-import { PaymentMethodResult, StripeCardElement } from "@stripe/stripe-js";
+import {
+  PaymentIntent,
+  PaymentMethodResult,
+  StripeCardElement,
+} from "@stripe/stripe-js";
+import { AxiosResponse } from "axios";
 
 export default function PlanSelection() {
   const router = useRouter();
   const { user, setUser } = useUser();
-  const [priceId, setPriceId] = useState();
+  const [priceId, setPriceId] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
   const elemets = useElements();
   const stripe = useStripe();
@@ -25,24 +30,27 @@ export default function PlanSelection() {
       },
     },
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const card = elemets?.getElement(CardElement) as StripeCardElement;
-    const { paymentMethod, error } = await stripe?.createPaymentMethod({
+    const { paymentMethod, error } = (await stripe?.createPaymentMethod({
       type: "card",
       card,
-    }) as PaymentMethodResult;
+    })) as PaymentMethodResult;
     if (error) {
       console.log(error);
       setErrMsg(error.message as string);
       return;
     } else {
-      const {payment_intent } = await axiosInstance
+      const { payment_intent } = await axiosInstance
         .post("/subscriptions/create", {
           priceId,
           paymentMethod: paymentMethod?.id,
         })
-        .catch((err) => setErrMsg(err.response.data.error.message));
+        .catch((err) => {
+          setErrMsg(err.response.data.error.message);
+          return { payment_intent: null };
+        });
 
       //the payment intent that tells if the payment has been made
       //if the invoice's payment succeeded then we don't need to do anything

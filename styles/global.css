@@ -59,6 +59,14 @@ body {
   border-left-color: transparent;
   animation: spin 1s linear infinite;
 }
+.btn-loading-container {
+  @apply h-full w-full flex flex-col items-center justify-center mr-2;
+}
+.btn-loading-container > div {
+  @apply w-4 h-4 border-2 border-txt-primary rounded-full;
+  border-left-color: transparent;
+  animation: spin 1s linear infinite;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -73,7 +81,7 @@ body {
   border-width: 1px;
 }
 .btn {
-  @apply bg-primary text-txt-primary rounded-md hover:skew-x-2;
+  @apply bg-primary text-txt-primary rounded-md flex items-center;
 }
 .keyboard-icon {
   @apply w-8 h-8 text-txt-base fill-current mx-2;
@@ -123,5 +131,5 @@ p {
   @apply m-2;
 }
 .bg-secondary-input {
-  @apply pl-2 bg-txt-base mx-0 my-1 rounded-md;
+  @apply pl-2 bg-ligth text-txt-ligth mx-0 my-1 rounded-md;
 }

@@ -11,6 +11,8 @@ module.exports = {
       secondary: colors.warmGray[700],
       "txt-secondary": colors.white,
       alert: colors.red[700],
+      ligth: colors.warmGray[300],
+      "txt-ligth": colors.warmGray[800],
     },
     extend: {},
   },

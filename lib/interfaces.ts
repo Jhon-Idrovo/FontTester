@@ -10,3 +10,11 @@ export declare interface IText {
   fontIndex: number;
   filters: string[] | number[] | [];
 }
+export declare interface JwtAccesPayload {
+  userID: string;
+  role: string;
+  email: string;
+  name: string;
+  iat: number;
+  exp: number;
+}

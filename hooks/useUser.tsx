@@ -1,5 +1,6 @@
 import { defaultUser, UserContext } from "../lib/UserContext";
 import { useContext } from "react";
+import axiosInstance from "../lib/axios";
 
 /**
  *
@@ -11,7 +12,13 @@ function useUser() {
   //if the user has not been loaded yet
   //this may not be neccesary
   const isLoadingUser = user === null;
-  return { user, setUser, logOut: () => setUser(defaultUser), isLoadingUser };
+  const logOut = () => {
+    localStorage.removeItem("ss");
+    localStorage.removeItem("rr");
+    axiosInstance.defaults.headers.Authorization = null;
+    setUser(defaultUser);
+  };
+  return { user, setUser, logOut, isLoadingUser };
 }
 
 export default useUser;

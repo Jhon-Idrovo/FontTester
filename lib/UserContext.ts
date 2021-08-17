@@ -3,7 +3,7 @@ import { IUser } from "./interfaces";
 export const defaultUser: IUser = {
   _id: "",
   email: "",
-  name: "",
+  username: "",
   role: "Guest",
 };
 //use this initial state to avoid using |null and get typecheking

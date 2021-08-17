@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 //Nextjs
 import Head from "next/head";
 //locals
@@ -16,7 +16,9 @@ import { defaultUser, UserContext } from "../lib/UserContext";
 
 //
 import { AppProps } from "next/dist/next-server/lib/router/router";
-import { IUser } from "../lib/interfaces";
+import { IRole, IUser, JwtAccesPayload } from "../lib/interfaces";
+import axiosInstance from "../lib/axios";
+import { decodeJWT } from "../lib/utils";
 
 export const stripePromise = loadStripe(
   "pk_test_51Iyx5dHhEOvz8JaOeTtCEBXMSff06WroQUgQ3ipHwrJpERmx1uPd2S50weOJFRo6JRxxpbrUXvViNMudhE0hR9S700hzAOsrqs"
@@ -33,8 +35,15 @@ export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<IUser>(defaultUser);
   //memoize the value for performance
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
-  //listen for auth changes and set new data in customer
-
+  //check if there is an access token
+  useEffect(() => {
+    const accessToken = localStorage.getItem("ss");
+    const payload = accessToken ? decodeJWT(accessToken) : null;
+    if (payload) {
+      const { email, userID, name, role } = payload as JwtAccesPayload;
+      setUser({ _id: userID, role: role as IRole, email, username: name });
+    }
+  }, []);
   return (
     <>
       <Head>
