@@ -38,10 +38,14 @@ export default function App({ Component, pageProps }: AppProps) {
   //check if there is an access token
   useEffect(() => {
     const accessToken = localStorage.getItem("ss");
-    const payload = accessToken ? decodeJWT(accessToken) : null;
-    if (payload) {
-      const { email, userID, name, role } = payload as JwtAccesPayload;
-      setUser({ _id: userID, role: role as IRole, email, username: name });
+    let payload;
+    if (accessToken) {
+      payload = decodeJWT(accessToken);
+      axiosInstance.defaults.headers.Authorization = "JWT " + accessToken;
+      if (payload) {
+        const { email, userID, name, role } = payload as JwtAccesPayload;
+        setUser({ _id: userID, role: role as IRole, email, username: name });
+      }
     }
   }, []);
   return (

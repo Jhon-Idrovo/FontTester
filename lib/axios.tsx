@@ -18,7 +18,7 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   //on reject
   async (error) => {
-    console.log("Failed request intercepted");
+    console.log("Failed request intercepted", error.response);
     const originalRequest = error.config;
     //IF THE SERVER ISN'T WORKING
     if (typeof error.response === "undefined") {
@@ -32,15 +32,16 @@ axiosInstance.interceptors.response.use(
     //if the refresh token has expired or is invalid redirect to login
     if (
       error.response.status === 401 &&
-      originalRequest.url === baseURL + "/auth/get-new-access-token"
+      originalRequest.url === baseURL + "/tokens/new-access-token"
     ) {
-      window.location.href = "/signin/";
+      window.location.href = "/signin";
+      alert("Plase signin");
       return Promise.reject(error);
     }
     //if the access token has expired
     if (
-      error.response.status === 401
-      //&& error.response.data.error === "Authorization failed"
+      error.response.status === 401 &&
+      error.response.data.error.message === "Authorization failed"
     ) {
       //randon name for security
       const refreshToken = localStorage.getItem("rr");
@@ -55,8 +56,10 @@ axiosInstance.interceptors.response.use(
 
         if (tokenParts.exp > now) {
           return axiosInstance
-            .post("/auth/get-new-access-token", { refresh: refreshToken })
+            .post("/tokens/new-access-token", { refresh: refreshToken })
             .then((response) => {
+              console.log("New atkn response", response);
+
               typeof window !== "undefined" &&
                 localStorage.setItem("ss", response.data.accessToken);
               // localStorage.setItem("refresh_token", response.data.refresh);

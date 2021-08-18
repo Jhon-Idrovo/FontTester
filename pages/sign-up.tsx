@@ -35,7 +35,7 @@ function SignUp() {
           <p className="text-2xl	">
             Create an account or sign in with you prefered account
           </p>
-          {user.role !== "Guest" ? (
+          {user._id ? (
             <div className="flex items-center justify-center w-full h-2/3">
               <i className="fas fa-check  text-5xl"></i>
             </div>

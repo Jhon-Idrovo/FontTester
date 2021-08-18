@@ -6,17 +6,18 @@ import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
 import axiosInstance from "../lib/axios";
 import {
-  PaymentIntent,
+  PaymentIntentResult,
   PaymentMethodResult,
   StripeCardElement,
 } from "@stripe/stripe-js";
-import { AxiosResponse } from "axios";
+import ButtonLoading from "./ButtonLoading";
 
 export default function PlanSelection() {
   const router = useRouter();
   const { user, setUser } = useUser();
   const [priceId, setPriceId] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const elemets = useElements();
   const stripe = useStripe();
   const cardOptions = {
@@ -32,6 +33,7 @@ export default function PlanSelection() {
   };
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     const card = elemets?.getElement(CardElement) as StripeCardElement;
     const { paymentMethod, error } = (await stripe?.createPaymentMethod({
       type: "card",
@@ -47,7 +49,9 @@ export default function PlanSelection() {
           priceId,
           paymentMethod: paymentMethod?.id,
         })
+        .then((res) => res.data)
         .catch((err) => {
+          console.log(error);
           setErrMsg(err.response.data.error.message);
           return { payment_intent: null };
         });
@@ -62,9 +66,10 @@ export default function PlanSelection() {
           status === "requires_action" ||
           status === "requires_confirmation"
         ) {
-          const { error: confirmationError } = await stripe.confirmCardPayment(
-            client_secret
-          );
+          const { error: confirmationError } =
+            (await stripe?.confirmCardPayment(
+              client_secret
+            )) as PaymentIntentResult;
           if (confirmationError) {
             console.log(
               "An error happened trying to confirm the card payment:",
@@ -77,13 +82,17 @@ export default function PlanSelection() {
           } else {
             //success
             alert("You are subscribed");
-            //reload the page to fetch the user again?
-            setUser((prev) => ({ ...prev, subscriptionType: "PRO" }));
+            //delete the access token to force requesting a new one with
+            //role updated
+            localStorage.removeItem("ss");
+            //if the user does not reload the page this does the work too
+            setUser((prev) => ({ ...prev, role: "User" }));
             router.push("/");
           }
         }
       }
     }
+    setIsLoading(false);
   };
 
   return (
@@ -128,11 +137,12 @@ export default function PlanSelection() {
         />
         <button
           className="btn px-6 py-1 w-max mx-auto mt-8 table"
-          disabled={!user || user.role === "Guest"}
+          disabled={!user || user._id === "" || priceId === ""}
         >
+          {isLoading ? <ButtonLoading /> : null}
           Join
         </button>
-        {!user || user.role === "Guest" ? (
+        {!user || user._id === "" ? (
           <p className="text-alert w-max mx-auto font-medium">
             Please create a user first
           </p>

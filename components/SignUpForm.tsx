@@ -22,7 +22,8 @@ function SignUpForm() {
         return false;
       });
     if (data) {
-      setUser(data.user);
+      //update user, tokens and axios instance
+      setUser({ ...data.user, role: data.user.role.name });
       const aTkn = data.accessToken;
       const rTkn = data.refreshToken;
       axiosInstance.defaults.headers.Autorization = "JWT " + aTkn;

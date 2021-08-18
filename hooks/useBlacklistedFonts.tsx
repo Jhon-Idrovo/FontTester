@@ -21,7 +21,7 @@ const useBlacklistedFonts = () => {
   } = useQuery(
     ["blacklisted"],
     () => axiosInstance.get("/fonts/blacklisted").then((res) => res.data),
-    { enabled: !(user.role === "Guest") }
+    { enabled: user.role === "User" }
   );
 
   return user
