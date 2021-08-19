@@ -81,7 +81,14 @@ body {
   border-width: 1px;
 }
 .btn {
-  @apply bg-primary text-txt-primary rounded-md flex items-center;
+  @apply border-primary bg-primary text-txt-primary hover:bg-secondary hover:text-txt-secondary hover:border-ligth rounded-md flex items-center;
+  border-width: 1px;
+}
+.btn-red {
+  @apply bg-alert text-txt-ligth rounded-md;
+}
+.card-container {
+  @apply bg-secondary rounded-md mx-2 my-2 p-2;
 }
 .keyboard-icon {
   @apply w-8 h-8 text-txt-base fill-current mx-2;
