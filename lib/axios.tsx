@@ -56,7 +56,7 @@ axiosInstance.interceptors.response.use(
 
         if (tokenParts.exp > now) {
           return axiosInstance
-            .post("/tokens/new-access-token", { refresh: refreshToken })
+            .post("/tokens/new-access-token", { refreshToken })
             .then((response) => {
               console.log("New atkn response", response);
 

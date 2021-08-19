@@ -37,16 +37,35 @@ export default function App({ Component, pageProps }: AppProps) {
   //const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   //check if there is an access token
   useEffect(() => {
-    const accessToken = localStorage.getItem("ss");
-    let payload;
-    if (accessToken) {
-      payload = decodeJWT(accessToken);
-      axiosInstance.defaults.headers.Authorization = "JWT " + accessToken;
-      if (payload) {
-        const { email, userID, name, role } = payload as JwtAccesPayload;
+    async function handleReload() {
+      let accessToken = localStorage.getItem("ss");
+      const refreshToken = localStorage.getItem("rr");
+      let payload: JwtAccesPayload | null = null;
+      if (refreshToken && !accessToken) {
+        //Handling edge case:
+        //The ss token was deleted on sign up to force the
+        //retrieval of a new, updated token.
+        //But the user reloaded  and there is no token to run the
+        //above code. This leads to signout.
+        await axiosInstance
+          .post("/tokens/new-access-token", {
+            refreshToken,
+          })
+          .then((res) => (accessToken = res.data.accessToken))
+          .catch((error) => {
+            alert("Please, sign in again");
+            console.log(error);
+          });
+      }
+
+      if (accessToken) {
+        axiosInstance.defaults.headers.Authorization = "JWT " + accessToken;
+        payload = decodeJWT(accessToken);
+        const { email, userID, name, role } = payload;
         setUser({ _id: userID, role: role as IRole, email, username: name });
       }
     }
+    handleReload();
   }, []);
   return (
     <>
