@@ -9,6 +9,7 @@ import {
   PaymentIntentResult,
   PaymentMethodResult,
   StripeCardElement,
+  StripeElementChangeEvent,
 } from "@stripe/stripe-js";
 import ButtonLoading from "./ButtonLoading";
 
@@ -100,7 +101,13 @@ export default function PlanSelection() {
     }
     setIsLoading(false);
   };
-
+  const handleFormChange = (e: StripeElementChangeEvent) => {
+    if (e.error) {
+      setErrMsg(e.error.message);
+    } else {
+      setErrMsg("");
+    }
+  };
   return (
     <div>
       <p className="text-2xl">
@@ -140,6 +147,7 @@ export default function PlanSelection() {
         <CardElement
           options={cardOptions}
           className="text-txt-secondary w-full"
+          onChange={handleFormChange}
         />
         <button
           className="btn px-6 py-1 w-max mx-auto mt-8 table"
