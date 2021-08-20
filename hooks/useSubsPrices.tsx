@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import Stripe from "stripe";
 import axiosInstance from "../lib/axios";
@@ -16,7 +17,7 @@ function useSubsPrices() {
     prices: data
       ? (data.prices.data as Stripe.Price[])
       : ([] as Stripe.Price[]),
-    pricesError: error,
+    pricesError: error as AxiosError,
     isLoadingPrices: isLoading || isFetching,
   };
 }

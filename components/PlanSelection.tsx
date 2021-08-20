@@ -13,6 +13,7 @@ import {
 } from "@stripe/stripe-js";
 import ButtonLoading from "./ButtonLoading";
 import useSubsPrices from "../hooks/useSubsPrices";
+import Loading from "./Loading";
 
 export default function PlanSelection() {
   const router = useRouter();
@@ -110,67 +111,45 @@ export default function PlanSelection() {
       setErrMsg("");
     }
   };
+  if (isLoadingPrices) return <Loading>{}</Loading>;
+
   return (
     <div>
       <p className="text-2xl">
         Select a subscription plan and confirm your payment
       </p>
       <div className="flex justify-center mt-2">
-        {prices.map((priceObj) => (
-          <button
-            key={priceObj.id}
-            className={`border-2 p-2 outline-none ${
-              priceId === priceObj.id
-                ? "border-primary"
-                : "border-txt-secondary"
-            }`}
-            onClick={() => setPriceId(priceObj.id)}
-          >
-            <h1 className="font-semibold text-2xl">
-              Charge per {priceObj.recurring?.interval}
-            </h1>
-            <p>Normal price</p>
-            <p className="line-through font-thin text-opacity-50">
-              {priceObj.unit_amount
-                ? "$" + (priceObj.unit_amount / 100) * 1.75
-                : "Price not found"}
-            </p>
-            <p>Launching price</p>
-            <p className="font-thin">
-              {priceObj.unit_amount
-                ? "$" + priceObj.unit_amount / 100
-                : "Price not found"}
-            </p>
-          </button>
-        ))}
-        {/* <button
-          className={`border-2 p-2 outline-none ${
-            priceId === "price_1Iyx9wHhEOvz8JaOSVCF6AJi"
-              ? "border-primary"
-              : "border-txt-secondary"
-          }`}
-          onClick={() => setPriceId("price_1Iyx9wHhEOvz8JaOSVCF6AJi")}
-        >
-          <h1 className="font-semibold text-2xl">Mensual</h1>
-          <p>Normal price</p>
-          <p className="line-through font-thin text-opacity-50">$3.99</p>
-          <p>Launching price</p>
-          <p className="font-thin">$1.50</p>
-        </button>
-        <button
-          className={`border-2 border-collapse p-2 outline-none ${
-            priceId === "price_1Iyx9wHhEOvz8JaOMOYdWrWV"
-              ? "border-primary"
-              : "border-txt-secondary"
-          }`}
-          onClick={() => setPriceId("price_1Iyx9wHhEOvz8JaOMOYdWrWV")}
-        >
-          <h1 className="font-semibold text-2xl">Anual</h1>
-          <p>Normal price</p>
-          <p className="line-through font-thin text-opacity-50">$10.99</p>
-          <p>Launching price</p>
-          <p className="font-thin">$7.50</p>
-        </button> */}
+        {pricesError ? (
+          <p>An error happened while retrieving the data</p>
+        ) : (
+          prices.map((priceObj) => (
+            <button
+              key={priceObj.id}
+              className={`border-2 p-2 outline-none ${
+                priceId === priceObj.id
+                  ? "border-primary"
+                  : "border-txt-secondary"
+              }`}
+              onClick={() => setPriceId(priceObj.id)}
+            >
+              <h1 className="font-semibold text-2xl">
+                Charge per {priceObj.recurring?.interval}
+              </h1>
+              <p>Normal price</p>
+              <p className="line-through font-thin text-opacity-50">
+                {priceObj.unit_amount
+                  ? "$" + (priceObj.unit_amount / 100) * 1.75
+                  : "Price not found"}
+              </p>
+              <p>Launching price</p>
+              <p className="font-thin">
+                {priceObj.unit_amount
+                  ? "$" + priceObj.unit_amount / 100
+                  : "Price not found"}
+              </p>
+            </button>
+          ))
+        )}
       </div>
       <form className="mt-8" onSubmit={handleSubmit}>
         <CardElement
