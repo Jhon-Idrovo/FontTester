@@ -1,6 +1,7 @@
 import useUser from "../hooks/useUser";
 import PlanSelection from "../components/PlanSelection";
 import SignUpForm from "../components/SignUpForm";
+
 const texts = [
   {
     t: "Collections",
@@ -17,6 +18,7 @@ const texts = [
 ];
 function SignUp() {
   const { user } = useUser();
+
   return (
     <div>
       <h1 className="text-txt-base w-max mx-auto mt-8 font-semibold text-3xl">
