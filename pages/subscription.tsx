@@ -5,6 +5,8 @@ import Loading from "../components/Loading";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import ButtonLoading from "../components/ButtonLoading";
+import useUser from "../hooks/useUser";
+import Link from "next/link";
 
 function Subscription() {
   const [isShowingConfirmation, setIsShowingConfirmation] = useState(false);
@@ -14,6 +16,7 @@ function Subscription() {
   const [isProcessing, setIsProcessing] = useState<"change" | "cancel" | "">(
     ""
   );
+  const { setUser } = useUser();
   const {
     data: subscriptions,
     isLoading: isLoadingSubscriptions,
@@ -33,10 +36,17 @@ function Subscription() {
       .catch((err: AxiosError) =>
         setErrorMsg(err.response?.data.error.message)
       );
+    setUser((prev) => ({ ...prev, role: "Guest" }));
+    localStorage.removeItem("ss");
     setIsProcessing("");
+    setIsShowingConfirmation(false);
   };
   if (isLoadingSubscriptions || isFetchingSubscriptions)
-    return <Loading>{}</Loading>;
+    return (
+      <div className="container-full">
+        <Loading>{}</Loading>
+      </div>
+    );
   if (isShowingConfirmation)
     return (
       <div className="container-full">
@@ -58,6 +68,16 @@ function Subscription() {
             </button>
           </div>
         </div>
+      </div>
+    );
+
+  if (subscriptions.data.length === 0)
+    return (
+      <div className="text-txt-base text-center">
+        You aren't subscribed... Yet. Please go to{" "}
+        <Link href="/signup">
+          <a className="text-primary ">signup</a>
+        </Link>
       </div>
     );
   return (

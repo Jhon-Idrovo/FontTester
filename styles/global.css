@@ -96,6 +96,7 @@ body {
 .container-full-inner {
   @apply p-4 bg-secondary rounded-md;
 }
+
 .keyboard-icon {
   @apply w-8 h-8 text-txt-base fill-current mx-2;
 }
