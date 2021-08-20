@@ -27,7 +27,7 @@ function LikedFonts({
   return (
     <div>
       {fonts.map((fontsSet, index) => (
-        <div className="border-b-2 border-secondary relative">
+        <div className="card-container relative">
           {fontsSet.map((font) => (
             <p className="text-txt-base px-4" style={{ fontFamily: font }}>
               {font}

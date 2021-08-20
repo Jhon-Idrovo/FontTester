@@ -2,19 +2,64 @@ import Stripe from "stripe";
 import { useQuery } from "react-query";
 import axiosInstance from "../lib/axios";
 import Loading from "../components/Loading";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import ButtonLoading from "../components/ButtonLoading";
 
 function Subscription() {
+  const [isShowingConfirmation, setIsShowingConfirmation] = useState(false);
+  const [isShowingSuccess, setIsShowingSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [planOnSelection, setPlanOnSelection] = useState(""); // Plan's id
+  const [isProcessing, setIsProcessing] = useState<"change" | "cancel" | "">(
+    ""
+  );
   const {
     data: subscriptions,
-    isLoading,
-    isFetching,
+    isLoading: isLoadingSubscriptions,
+    isFetching: isFetchingSubscriptions,
     error,
   } = useQuery("subscription", async () => {
     return axiosInstance.get("/subscriptions").then((res) => res.data);
   });
-  if (isLoading || isFetching) return <Loading>{}</Loading>;
-  console.log(subscriptions);
 
+  console.log(subscriptions);
+  const cancelSubscription = async () => {
+    setIsProcessing("cancel");
+    await axiosInstance
+      .post("/subscriptions/cancel", {
+        subscriptionId: planOnSelection,
+      })
+      .catch((err: AxiosError) =>
+        setErrorMsg(err.response?.data.error.message)
+      );
+    setIsProcessing("");
+  };
+  if (isLoadingSubscriptions || isFetchingSubscriptions)
+    return <Loading>{}</Loading>;
+  if (isShowingConfirmation)
+    return (
+      <div className="container-full">
+        <div className="container-full-inner w-1/2 text-txt-secondary">
+          <h2>
+            Are you sure you want to cancel the subscription? All your data will
+            be deleted inmediately
+          </h2>
+          <div className="flex justify-center mt-4">
+            <button
+              className="btn px-2 mr-2"
+              onClick={() => setIsShowingConfirmation(false)}
+            >
+              Stay
+            </button>
+            <button className="btn-red ml-2 px-2" onClick={cancelSubscription}>
+              {isProcessing === "cancel" ? <ButtonLoading /> : null}
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   return (
     <div>
       {subscriptions.data.map((subscription: Stripe.Subscription) => (
@@ -46,9 +91,18 @@ function Subscription() {
               </p>
             </div>
           </div>
+          {errorMsg ? <p className="text-alert">{errorMsg}</p> : null}
           <div className="flex justify-center items-center my-4">
-            <button className="btn px-2 mr-2">Change</button>
-            <button className="btn-red px-2 ml-2">Cancel</button>
+            <button className="btn px-2 mr-2">Change Plan</button>
+            <button
+              className="btn-red px-2 ml-2"
+              onClick={() => {
+                setIsShowingConfirmation(true);
+                setPlanOnSelection(subscription.id);
+              }}
+            >
+              Cancel Subscription
+            </button>
           </div>
         </div>
       ))}

@@ -90,6 +90,12 @@ export default function PlanSelection() {
             router.push("/");
           }
         }
+        //failed payment due to card error: https://stripe.com/docs/api/errors#errors-card_error
+        if (status === "requires_payment_method") {
+          setErrMsg(
+            "An error with your card happened. Please try another one."
+          );
+        }
       }
     }
     setIsLoading(false);
