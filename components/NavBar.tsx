@@ -44,8 +44,8 @@ function NavBar() {
                 router.pathname === "/collections" ? "nav-item-active" : null
               }`}
             >
-              <Link href="/collections">
-                <a>Saved Collections</a>
+              <Link href="/my_matches">
+                <a>Saved Matches </a>
               </Link>
             </li>
             <li

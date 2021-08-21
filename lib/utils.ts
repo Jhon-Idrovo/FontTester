@@ -11,3 +11,10 @@ export function blacklistFont(font: IGoogleFont) {}
 export async function saveLikedFonts(fonts: IGoogleFont[][]) {
   return await axiosInstance.post("/fonts/save", { likedFonts: fonts });
 }
+/**
+ *
+ * @param match_id Id of the Fonts_User_Liked record
+ */
+export async function deleteLikedFont(match_id: string) {
+  return axiosInstance.delete("/fonts/delete_liked/" + match_id);
+}
