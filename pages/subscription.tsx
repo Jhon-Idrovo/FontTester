@@ -8,6 +8,7 @@ import ButtonLoading from "../components/ButtonLoading";
 import useUser from "../hooks/useUser";
 import Link from "next/link";
 import PlansShowcase from "../components/PlansShowcase";
+import useUserSubscriptions from "../hooks/useUserSubscriptions";
 
 function Subscription() {
   const [isShowingConfirmation, setIsShowingConfirmation] = useState(false);
@@ -16,34 +17,49 @@ function Subscription() {
   const [isProcessing, setIsProcessing] = useState<"change" | "cancel" | "">(
     ""
   );
+  const [isShowingSuccess, setIsShowingSuccess] = useState<
+    "change" | "cancel" | ""
+  >("");
   const [priceId, setPriceId] = useState("");
   const [isChangeOpen, setIsChangeOpen] = useState(false);
   const { setUser } = useUser();
-  const {
-    data: subscriptions,
-    isLoading: isLoadingSubscriptions,
-    isFetching: isFetchingSubscriptions,
-    error,
-  } = useQuery("subscription", async () => {
-    return axiosInstance.get("/subscriptions").then((res) => res.data);
-  });
+  const { subscriptions, error, isLoadingSubscriptions } =
+    useUserSubscriptions();
 
-  console.log(subscriptions);
   const cancelSubscription = async () => {
     setIsProcessing("cancel");
-    await axiosInstance
-      .post("/subscriptions/cancel", {
+    try {
+      await axiosInstance.post("/subscriptions/cancel", {
         subscriptionId: planOnSelection,
-      })
-      .catch((err: AxiosError) =>
-        setErrorMsg(err.response?.data.error.message)
-      );
-    setUser((prev) => ({ ...prev, role: "Guest" }));
-    localStorage.removeItem("ss");
-    setIsProcessing("");
-    setIsShowingConfirmation(false);
+      });
+
+      setUser((prev) => ({ ...prev, role: "Guest" }));
+      localStorage.removeItem("ss");
+      setIsProcessing("");
+      setIsShowingConfirmation(false);
+      setIsShowingSuccess("cancel");
+    } catch (error) {
+      setErrorMsg((error as AxiosError).response?.data.error.message);
+    }
   };
-  if (isLoadingSubscriptions || isFetchingSubscriptions)
+  const changeSubscription = async () => {
+    setIsProcessing("change");
+    try {
+      await axiosInstance.post("/subscriptions/update", {
+        subscriptionId: planOnSelection,
+        priceId,
+        itemId: subscriptions.find(
+          (subscription) => subscription.id === planOnSelection
+        )?.items.data[0].id,
+      });
+      setIsChangeOpen(false);
+      setIsShowingSuccess("change");
+    } catch (error) {
+      setErrorMsg((error as AxiosError).response?.data.error.message);
+    }
+    setIsProcessing("");
+  };
+  if (isLoadingSubscriptions)
     return (
       <div className="container-full">
         <Loading>{}</Loading>
@@ -73,20 +89,65 @@ function Subscription() {
       </div>
     );
 
-  if (subscriptions.data.length === 0)
+  if (subscriptions.length === 0)
     return (
-      <div className="text-txt-base text-center">
-        You aren't subscribed... Yet. Please go to{" "}
-        <Link href="/signup">
-          <a className="text-primary ">signup</a>
-        </Link>
+      <div className="container-full">
+        <div className="container-full-inner font-medium">
+          You aren't subscribed... Yet. Please go to{" "}
+          <Link href="/signup">
+            <a className="text-primary ">signup</a>
+          </Link>
+        </div>
       </div>
     );
   if (isChangeOpen)
     return (
       <div className="container-full">
-        <div className="container-full-inner">
+        <div className="container-full-inner relative">
+          <button
+            className="absolute top-0 right-1"
+            onClick={() => setIsChangeOpen(false)}
+          >
+            <i className="fas fa-times"></i>
+          </button>
           <PlansShowcase priceId={priceId} setPriceId={setPriceId} />
+          {errorMsg ? (
+            <p className="text-alert font-medium">{errorMsg}</p>
+          ) : null}
+          <button
+            className="btn px-2 mx-auto mt-2"
+            onClick={changeSubscription}
+          >
+            {isProcessing === "change" ? <ButtonLoading /> : null}Save
+          </button>
+        </div>
+      </div>
+    );
+  if (isShowingSuccess === "change")
+    return (
+      <div className="container-full">
+        <div className="container-full-inner w-1/3">
+          <p>
+            Subscription change in process, be aware of any email from us.
+            Thanks.
+          </p>
+          <Link href={"/"}>
+            <a className="btn px-2 w-max mx-auto">Go home</a>
+          </Link>
+        </div>
+      </div>
+    );
+  if (isShowingSuccess === "cancel")
+    return (
+      <div className="container-full">
+        <div className="container-full-inner w-1/3">
+          <p>
+            Subscription cancel in process, reload the page to see if the
+            changes apply. Be aware of any email from us. Thanks.
+          </p>
+          <Link href={"/"}>
+            <a className="btn px-2 w-min mx-auto">Go home</a>
+          </Link>
         </div>
       </div>
     );
@@ -123,7 +184,16 @@ function Subscription() {
           </div>
           {errorMsg ? <p className="text-alert">{errorMsg}</p> : null}
           <div className="flex justify-center items-center my-4">
-            <button className="btn px-2 mr-2">Change Plan</button>
+            <button
+              className="btn px-2 mr-2"
+              onClick={() => {
+                setIsChangeOpen(true);
+                setPlanOnSelection(subscription.id);
+                setPriceId(subscription.items.data[0].price.id);
+              }}
+            >
+              Change Plan
+            </button>
             <button
               className="btn-red px-2 ml-2"
               onClick={() => {
