@@ -15,18 +15,18 @@ function LikedFonts({
   handleRemoveFont: Function;
 }) {
   const { user } = useUser();
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [errorMsg, setErrorMsg] = useState('')
-  const handleSaveFonts = async ()=>{
-    setIsProcessing(true)
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const handleSaveFonts = async () => {
+    setErrorMsg(""); //resesting
+    setIsProcessing(true);
     try {
-      await saveLikedFonts(fonts)
-      
+      await saveLikedFonts(fonts);
     } catch (error) {
-      setErrorMsg('Unable to save the fonts on this moment, please try again.')
+      setErrorMsg("Unable to save the fonts on this moment, please try again.");
     }
-    setIsProcessing(false)
-  }
+    setIsProcessing(false);
+  };
   if (fonts.length === 0) {
     return (
       <div className="text-txt-base text-center">
@@ -60,15 +60,15 @@ function LikedFonts({
 
       {user.role === "User" ? (
         <>
-        {errorMsg?<p className='error-msg'>{errorMsg}</p>:null}
-        <button
-          onClick={handleSaveFonts}
-          className="btn block mt-8 px-4 w-max mx-auto"
+          {errorMsg ? <p className="error-msg">{errorMsg}</p> : null}
+          <button
+            onClick={handleSaveFonts}
+            className="btn block mt-8 px-4 w-max mx-auto"
           >
-          {isProcessing?<ButtonLoading/>:null}
-          Save
-        </button>
-          </>
+            {isProcessing ? <ButtonLoading /> : null}
+            Save
+          </button>
+        </>
       ) : (
         <DisabledBtn />
       )}
