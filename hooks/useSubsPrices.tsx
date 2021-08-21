@@ -8,8 +8,10 @@ import axiosInstance from "../lib/axios";
  * @returns list of price objects
  */
 function useSubsPrices() {
-  const { data, error, isLoading, isFetching } = useQuery("prices", () =>
-    axiosInstance.get("/subscriptions/prices").then((res) => res.data)
+  const { data, error, isLoading, isFetching } = useQuery(
+    "prices",
+    () => axiosInstance.get("/subscriptions/prices").then((res) => res.data),
+    { refetchOnWindowFocus: false }
   );
   console.log(data);
 

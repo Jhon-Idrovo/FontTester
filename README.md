@@ -4,6 +4,8 @@ We have acces to the user throuh the useUser hook. This hook uses the react cont
 
 # TODO
 
+Change the configurations of useSubPrices to defaults and fix bugs
+
 handle cancelation of subscription and payment failed
 
 Decoding the JWTtoken on the frontend needs to be donde with a verification. If a user tampers it we still verify it on the server, but it adds security.

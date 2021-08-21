@@ -12,13 +12,13 @@ import {
   StripeElementChangeEvent,
 } from "@stripe/stripe-js";
 import ButtonLoading from "./ButtonLoading";
-import useSubsPrices from "../hooks/useSubsPrices";
-import Loading from "./Loading";
+
+import PlansShowcase from "./PlansShowcase";
 
 export default function PlanSelection() {
   const router = useRouter();
   const { user, setUser } = useUser();
-  const { prices, pricesError, isLoadingPrices } = useSubsPrices();
+
   const [priceId, setPriceId] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -111,46 +111,13 @@ export default function PlanSelection() {
       setErrMsg("");
     }
   };
-  if (isLoadingPrices) return <Loading>{}</Loading>;
 
   return (
     <div>
-      <p className="text-2xl">
+      <p className="text-2xl mb-2">
         Select a subscription plan and confirm your payment
       </p>
-      <div className="flex justify-center mt-2">
-        {pricesError ? (
-          <p>An error happened while retrieving the data</p>
-        ) : (
-          prices.map((priceObj) => (
-            <button
-              key={priceObj.id}
-              className={`border-2 p-2 outline-none ${
-                priceId === priceObj.id
-                  ? "border-primary"
-                  : "border-txt-secondary"
-              }`}
-              onClick={() => setPriceId(priceObj.id)}
-            >
-              <h1 className="font-semibold text-2xl">
-                Charge per {priceObj.recurring?.interval}
-              </h1>
-              <p>Normal price</p>
-              <p className="line-through font-thin text-opacity-50">
-                {priceObj.unit_amount
-                  ? "$" + (priceObj.unit_amount / 100) * 1.75
-                  : "Price not found"}
-              </p>
-              <p>Launching price</p>
-              <p className="font-thin">
-                {priceObj.unit_amount
-                  ? "$" + priceObj.unit_amount / 100
-                  : "Price not found"}
-              </p>
-            </button>
-          ))
-        )}
-      </div>
+      <PlansShowcase setPriceId={setPriceId} priceId={priceId} />
       <form className="mt-8" onSubmit={handleSubmit}>
         <CardElement
           options={cardOptions}

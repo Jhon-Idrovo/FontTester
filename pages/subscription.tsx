@@ -7,15 +7,17 @@ import { AxiosError } from "axios";
 import ButtonLoading from "../components/ButtonLoading";
 import useUser from "../hooks/useUser";
 import Link from "next/link";
+import PlansShowcase from "../components/PlansShowcase";
 
 function Subscription() {
   const [isShowingConfirmation, setIsShowingConfirmation] = useState(false);
-  const [isShowingSuccess, setIsShowingSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [planOnSelection, setPlanOnSelection] = useState(""); // Plan's id
   const [isProcessing, setIsProcessing] = useState<"change" | "cancel" | "">(
     ""
   );
+  const [priceId, setPriceId] = useState("");
+  const [isChangeOpen, setIsChangeOpen] = useState(false);
   const { setUser } = useUser();
   const {
     data: subscriptions,
@@ -80,9 +82,17 @@ function Subscription() {
         </Link>
       </div>
     );
+  if (isChangeOpen)
+    return (
+      <div className="container-full">
+        <div className="container-full-inner">
+          <PlansShowcase priceId={priceId} setPriceId={setPriceId} />
+        </div>
+      </div>
+    );
   return (
     <div>
-      {subscriptions.data.map((subscription: Stripe.Subscription) => (
+      {subscriptions.map((subscription: Stripe.Subscription) => (
         <div className="card-container">
           <div className=" text-txt-base grid grid-cols-2 grid-rows-2">
             <div className="subscription-info-item">
