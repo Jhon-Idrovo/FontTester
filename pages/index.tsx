@@ -6,12 +6,11 @@ import LikedFonts from "../components/LikedFonts";
 import Loading from "../components/Loading";
 
 import useUser from "../hooks/useUser";
-import { useQuery } from "react-query";
 
 import CategoryFilter from "../components/CategoryFilter";
 import useBlacklistedFonts from "../hooks/useBlacklistedFonts";
 import useGoogleFonts from "../hooks/useGoogleFonts";
-import { IText } from "../lib/interfaces";
+import { IGoogleFont, IText } from "../lib/interfaces";
 import { blacklistFont } from "../lib/utils";
 
 export default function Home() {
@@ -52,8 +51,8 @@ export default function Home() {
       }
       //check if the font meets the restrictions
       if (
-        currentText.filters.includes(nextFont.category) ||
-        currentText.filters.includes(nextFontIndex)
+        currentText.filters.includes(nextFont.category as never) ||
+        currentText.filters.includes(nextFontIndex as never)
       ) {
         //if the font is excluded execute the chenge again. To do this wee need to
         //make the change two times.
@@ -81,7 +80,7 @@ export default function Home() {
       let filters = texts[activeTextIndex].filters;
       filters = [...filters, texts[activeTextIndex].fontIndex];
       //if the user is PRO blacklist the font on the server too
-      if (user.role === 'User') {
+      if (user.role === "User") {
         const font = fonts[texts[activeTextIndex].fontIndex];
         blacklistFont(font);
       }
@@ -93,10 +92,16 @@ export default function Home() {
   }
 
   //SAVE AND SHOW LIKED FONTS
-  const [liked, setLiked] = useState<string[][]>([]);
+  const [liked, setLiked] = useState<IGoogleFont[][]>([]);
   const saveFonts = () => {
     //save the current font(s) when "SAVE THIS" is pressed
-    setLiked((prev) => [...prev, texts.map((t) => fonts[t.fontIndex].family)]);
+    setLiked((prev) => [
+      ...prev,
+      texts.map((t) => ({
+        family: fonts[t.fontIndex].family,
+        category: fonts[t.fontIndex].category,
+      })),
+    ]);
   };
   const handleRemoveFont = (likedIndex: number) => {
     setLiked((prev) => {
@@ -114,15 +119,15 @@ export default function Home() {
   const [config, setConfig] = useState({ bgCol: "#FFFFFF", txtCol: "#000000" });
   const handleConfigSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const txtCol = e.target[0].value;
+    const txtCol = (e.target[0] as HTMLInputElement).value;
     const bgCol = e.target[1].value;
     setConfig({ bgCol, txtCol });
   };
   useEffect(() => {
     function clickOutsideHandler(e: MouseEvent) {
       if (
-        e.currentTarget?.id !== "config-menu" &&
-        e.currentTarget?.id !== "config-menu-btn"
+        (e.currentTarget as HTMLElement)?.id !== "config-menu" &&
+        (e.currentTarget as HTMLElement)?.id !== "config-menu-btn"
       ) {
         setIsConfigOpen(false);
       }

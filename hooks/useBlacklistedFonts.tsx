@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import useUser from "./useUser";
-import { IGoogleFont } from "./useGoogleFonts";
 import axiosInstance from "../lib/axios";
+import { IGoogleFont } from "../lib/interfaces";
 type returnObj = {
   error: Error | null;
   isLoading: boolean;

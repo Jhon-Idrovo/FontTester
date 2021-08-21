@@ -2,18 +2,31 @@ import useUser from "../hooks/useUser";
 import Link from "next/link";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { saveLikedFonts } from "../lib/utils";
+import { IGoogleFont } from "../lib/interfaces";
+import ButtonLoading from "./ButtonLoading";
 
 function LikedFonts({
   fonts,
   goBack,
   handleRemoveFont,
 }: {
-  fonts: string[][];
+  fonts: IGoogleFont[][];
   goBack: MouseEventHandler;
   handleRemoveFont: Function;
 }) {
   const { user } = useUser();
-  console.log(fonts);
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+  const handleSaveFonts = async ()=>{
+    setIsProcessing(true)
+    try {
+      await saveLikedFonts(fonts)
+      
+    } catch (error) {
+      setErrorMsg('Unable to save the fonts on this moment, please try again.')
+    }
+    setIsProcessing(false)
+  }
   if (fonts.length === 0) {
     return (
       <div className="text-txt-base text-center">
@@ -29,26 +42,33 @@ function LikedFonts({
       {fonts.map((fontsSet, index) => (
         <div className="card-container relative">
           {fontsSet.map((font) => (
-            <p className="text-txt-base px-4" style={{ fontFamily: font }}>
-              {font}
+            <p
+              className="text-txt-base px-4"
+              style={{ fontFamily: font.family }}
+            >
+              {font.family}
             </p>
           ))}
           <button
             onClick={() => handleRemoveFont(index)}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 text-txt-base"
           >
-            X
+            <i className="fa fas-times"></i>
           </button>
         </div>
       ))}
 
-      {user.role !== "Guest" ? (
+      {user.role === "User" ? (
+        <>
+        {errorMsg?<p className='error-msg'>{errorMsg}</p>:null}
         <button
-          onClick={() => saveLikedFonts(fonts)}
+          onClick={handleSaveFonts}
           className="btn block mt-8 px-4 w-max mx-auto"
-        >
+          >
+          {isProcessing?<ButtonLoading/>:null}
           Save
         </button>
+          </>
       ) : (
         <DisabledBtn />
       )}
@@ -65,7 +85,7 @@ function DisabledBtn() {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   useEffect(() => {
     function listenClickOutside(e: MouseEvent) {
-      if (e.currentTarget?.id !== "tooltip") {
+      if ((e.currentTarget as HTMLElement)?.id !== "tooltip") {
         setIsTooltipOpen(false);
       }
     }

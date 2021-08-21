@@ -8,7 +8,7 @@ export declare interface IUser {
 
 export declare interface IText {
   fontIndex: number;
-  filters: string[] | number[] | [];
+  filters: (string | number)[];
 }
 export declare interface JwtAccesPayload {
   userID: string;
@@ -17,4 +17,8 @@ export declare interface JwtAccesPayload {
   name: string;
   iat: number;
   exp: number;
+}
+export declare interface IGoogleFont {
+  family: string;
+  category: string;
 }

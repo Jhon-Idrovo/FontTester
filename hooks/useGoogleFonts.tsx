@@ -1,10 +1,6 @@
 import axios from "axios";
 import { useQuery } from "react-query";
-
-export declare interface IGoogleFont {
-  family: string;
-  category: string;
-}
+import { IGoogleFont } from "../lib/interfaces";
 
 /**
  * @returns object containing
