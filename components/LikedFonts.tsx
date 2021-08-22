@@ -104,8 +104,8 @@ function DisabledBtn() {
       {isTooltipOpen ? (
         <span className="tooltip ">
           You need a subscription to unlock this special feature.{" "}
-          <Link href="/sign-up">
-            <a>Get one here!</a>
+          <Link href="/signup">
+            <a className="link">Get one here!</a>
           </Link>
         </span>
       ) : null}

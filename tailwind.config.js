@@ -10,7 +10,7 @@ module.exports = {
       "txt-primary": colors.white,
       secondary: colors.warmGray[700],
       "txt-secondary": colors.white,
-      alert: colors.red[700],
+      alert: colors.red[400],
       ligth: colors.warmGray[300],
       "txt-ligth": colors.warmGray[800],
     },

@@ -35,7 +35,7 @@ function SignInPopup({ close }: { close: Function }) {
   return (
     <div className="container-full">
       <div className="flex flex-col w-min container-full-inner relative">
-        <button onClick={() => close} className="absolute top-0 right-1">
+        <button onClick={() => close()} className="absolute top-0 right-1">
           <i className="fas fa-times"></i>
         </button>
 

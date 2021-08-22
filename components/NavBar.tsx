@@ -90,7 +90,7 @@ function NavBar() {
             <li>
               <button
                 className="btn px-2"
-                onClick={() => router.push("/sign-up")}
+                onClick={() => router.push("/signup")}
               >
                 Sign Up
               </button>

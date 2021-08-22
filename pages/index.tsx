@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, KeyboardEventHandler, useEffect, useState } from "react";
 
 import TextArea from "../components/TextArea";
 import LikedFonts from "../components/LikedFonts";
@@ -42,10 +42,10 @@ export default function Home() {
    */
   const handleFontChange = (change: number) => {
     //to handle misterious bug when using the keyboard
-    let prevFonts = JSON.parse(JSON.stringify(fonts));
+    //let prevFonts = JSON.parse(JSON.stringify(fonts));
     setTexts((prevTexts) => {
       const currentText = prevTexts[activeTextIndex];
-      const nextFont = prevFonts[currentText.fontIndex + change];
+      const nextFont = fonts[currentText.fontIndex + change];
       const nextFontIndex = currentText.fontIndex + change;
       //check for negative index
       if (nextFontIndex < 0) {
@@ -143,23 +143,13 @@ export default function Home() {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   //SETTING UP LISTENERS FOR THE KEYS
-  const handleKeyPress = (e: KeyboardEvent) => {
+  const handleKeyPress: KeyboardEventHandler<HTMLElement> = (e) => {
     const { key } = e;
     key === "ArrowUp" ? doNotShowFont() : null;
     key === "ArrowDown" ? saveFonts() : null;
     key === "ArrowLeft" ? handleFontChange(-1) : null;
     key === "ArrowRight" ? handleFontChange(+1) : null;
   };
-  useEffect(() => {
-    //suscribe to the events
-    document.addEventListener("keydown", handleKeyPress);
-
-    return () => {
-      //unsuscribe to the events
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-    //dependency to not set an static active index
-  }, [activeTextIndex]);
   if (isLoadingUser) {
     return (
       <main className="w-screen h-screen">
@@ -187,7 +177,10 @@ export default function Home() {
           handleRemoveFont={handleRemoveFont}
         />
       ) : (
-        <main className="fixed top-10 bottom-0 right-0 left-0 text-txt-base bg-base">
+        <main
+          className="fixed top-10 bottom-0 right-0 left-0 text-txt-base bg-base"
+          onKeyDown={handleKeyPress}
+        >
           <div className="absolute top-6 w-full flex flex-col items-center">
             <button onClick={doNotShowFont} className="flex items-center">
               DON'T SHOW AGAIN
