@@ -1,5 +1,4 @@
 import Stripe from "stripe";
-import { useQuery } from "react-query";
 import axiosInstance from "../lib/axios";
 import Loading from "../components/Loading";
 import { useState } from "react";
@@ -35,6 +34,7 @@ function Subscription() {
 
       setUser((prev) => ({ ...prev, role: "Guest" }));
       localStorage.removeItem("ss");
+      localStorage.removeItem("rr");
       setIsProcessing("");
       setIsShowingConfirmation(false);
       setIsShowingSuccess("cancel");
@@ -115,7 +115,7 @@ function Subscription() {
             <p className="text-alert font-medium">{errorMsg}</p>
           ) : null}
           <button
-            className="btn px-2 mx-auto mt-2"
+            className="btn px-2 mx-auto mt-2 flex justify-center"
             onClick={changeSubscription}
           >
             {isProcessing === "change" ? <ButtonLoading /> : null}Save

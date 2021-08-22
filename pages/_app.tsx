@@ -10,7 +10,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 //react query
 import { QueryClient, QueryClientProvider } from "react-query";
-
+import { ReactQueryDevtools } from "react-query/devtools";
 //context
 import { defaultUser, UserContext } from "../lib/UserContext";
 
@@ -94,6 +94,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </UserContext.Provider>
         </Elements>
+        <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </>
   );

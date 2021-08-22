@@ -41,13 +41,15 @@ export default function Home() {
    * @param {-1 or 1} change Only in the case of recursive calls the value of change will be 2
    */
   const handleFontChange = (change: number) => {
-    setTexts((texts) => {
-      const currentText = texts[activeTextIndex];
-      const nextFont = fonts[currentText.fontIndex + change];
+    //to handle misterious bug when using the keyboard
+    let prevFonts = JSON.parse(JSON.stringify(fonts));
+    setTexts((prevTexts) => {
+      const currentText = prevTexts[activeTextIndex];
+      const nextFont = prevFonts[currentText.fontIndex + change];
       const nextFontIndex = currentText.fontIndex + change;
       //check for negative index
       if (nextFontIndex < 0) {
-        return texts;
+        return prevTexts;
       }
       //check if the font meets the restrictions
       if (
@@ -62,11 +64,11 @@ export default function Home() {
         setTimeout(() => {
           handleFontChange(change * 2);
         }, 0);
-        return texts;
+        return prevTexts;
       }
-      texts[activeTextIndex].fontIndex = nextFontIndex;
+      prevTexts[activeTextIndex].fontIndex = nextFontIndex;
       //to force re-rendering
-      return JSON.parse(JSON.stringify(texts));
+      return JSON.parse(JSON.stringify(prevTexts));
     });
   };
 
@@ -93,6 +95,7 @@ export default function Home() {
 
   //SAVE AND SHOW LIKED FONTS
   const [liked, setLiked] = useState<IGoogleFont[][]>([]);
+  //[[{font a}, {font b}],[]]
   const saveFonts = () => {
     //save the current font(s) when "SAVE THIS" is pressed
     setLiked((prev) => [
