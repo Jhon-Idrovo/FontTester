@@ -6,7 +6,7 @@ const categories = [
   { category: "display", exp: "Lobster" },
 ];
 
-function CategoryFilter({ filters, setTexts }) {
+function CategoryFilter({ filters, setTexts, activeTextIndex }) {
   /**
    * Removes or adds the category to the active text area filters accordingly
    * @param {string} category one of the 5 google font categories
@@ -30,6 +30,7 @@ function CategoryFilter({ filters, setTexts }) {
       ))} */}
       {categories.map(({ category, exp }) => (
         <h2
+          key={category}
           style={{ fontFamily: exp }}
           className={`filter-item ${
             !filters.includes(category) ? "filter-on" : ""

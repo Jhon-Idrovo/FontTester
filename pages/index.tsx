@@ -41,18 +41,17 @@ export default function Home() {
    * @param {-1 or 1} change Only in the case of recursive calls the value of change will be 2
    */
   const handleFontChange = (change: number) => {
-    //to handle misterious bug when using the keyboard
-    //let prevFonts = JSON.parse(JSON.stringify(fonts));
     setTexts((prevTexts) => {
       const currentText = prevTexts[activeTextIndex];
-      const nextFont = fonts[currentText.fontIndex + change];
-      const nextFontIndex = currentText.fontIndex + change;
+      let nextFontIndex = currentText.fontIndex + change;
+      //check for end of the fonts list
+      if (nextFontIndex > fonts.length) nextFontIndex = 0;
+      const nextFont = fonts[nextFontIndex];
       //check for negative index
-      if (nextFontIndex < 0) {
-        return prevTexts;
-      }
-      //check if the font meets the restrictions
+      if (nextFontIndex < 0) return prevTexts;
+      //check if the font meets the restrictions or not exists
       if (
+        !nextFont ||
         currentText.filters.includes(nextFont.category as never) ||
         currentText.filters.includes(nextFontIndex as never)
       ) {
@@ -62,8 +61,10 @@ export default function Home() {
         //To do this without killing the recursive call, we use a setTimeot to
         //take the call out of the tread.
         setTimeout(() => {
-          handleFontChange(change * 2);
+          // Check to not make it exponential
+          handleFontChange(Math.abs(change) === 1 ? change * 2 : change + 1);
         }, 0);
+        //overhead for comparission
         return prevTexts;
       }
       prevTexts[activeTextIndex].fontIndex = nextFontIndex;
@@ -165,6 +166,7 @@ export default function Home() {
         <title>FindAFont</title>
         {fonts?.map(({ family }) => (
           <link
+            key={family}
             rel="stylesheet"
             href={`https://fonts.googleapis.com/css?family=${family}`}
           />
@@ -301,6 +303,7 @@ export default function Home() {
               <CategoryFilter
                 filters={texts[activeTextIndex].filters}
                 setTexts={setTexts}
+                activeTextIndex={activeTextIndex}
               />
               <button
                 onClick={() => setIsConfigOpen((prev) => !prev)}

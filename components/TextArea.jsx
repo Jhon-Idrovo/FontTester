@@ -5,7 +5,7 @@ function TextShowcase({ index, font, setActive, config }) {
         <h6>Variants:</h6>
         <ul>
           {font.variants.map((v) => (
-            <li>{v}</li>
+            <li key={v}>{v}</li>
           ))}
         </ul>
       </div>
@@ -13,7 +13,7 @@ function TextShowcase({ index, font, setActive, config }) {
         onClick={() => setActive(index)}
         className="pl-8"
         style={{
-          fontFamily: `${font.family},serif`,
+          fontFamily: `${font.family}`,
           backgroundColor: config.bgCol,
           color: config.txtCol,
         }}
