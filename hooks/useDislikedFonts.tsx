@@ -5,6 +5,7 @@ import { IGoogleFont } from "../lib/interfaces";
 type returnObj = {
   error: Error | null;
   isLoading: boolean;
+  isFetching: boolean;
   fonts: { _id: string; user_id: string; font_id: IGoogleFont }[] | [];
   refetch: (
     options?: RefetchOptions | undefined
@@ -39,7 +40,8 @@ const useDislikedFonts = () => {
 
   return {
     error,
-    isLoading: isLoading || isFetching,
+    isLoading,
+    isFetching,
     fonts,
     refetch,
   } as returnObj;

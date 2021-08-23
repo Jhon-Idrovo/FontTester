@@ -26,11 +26,12 @@ function SignInPopup({ close }: { close: Function }) {
       axiosInstance.defaults.headers.Authorization = "JWT " + accessToken;
       const { userID, email, name, role } = decodeJWT(accessToken);
       setUser({ _id: userID, email, username: name, role: role as IRole });
+      setIsLoading(false);
       close();
     } catch (err) {
+      setIsLoading(false);
       setError((err as AxiosError).response?.data.error.message);
     }
-    setIsLoading(false);
   };
   return (
     <div className="container-full">

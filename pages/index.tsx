@@ -23,11 +23,7 @@ export default function Home() {
   //--------------------TEXT AREAS ----------------
   const { user, isLoadingUser } = useUser();
   //once the user is loaded (if there's one, we need its blacklisted fonts)
-  const {
-    error: dlFontsError,
-    fonts: dlFonts,
-    isLoading: isLoadignDlFonts,
-  } = useDislikedFonts();
+  const { fonts: dlFonts } = useDislikedFonts();
 
   const [texts, setTexts] = useState<IText[]>([
     { fontIndex: 0, filters: [] },
@@ -97,11 +93,11 @@ export default function Home() {
    */
   function doNotShowFont() {
     setTexts((texts) => {
-      let filters = texts[activeTextIndex].filters;
-      filters = [...filters, texts[activeTextIndex].fontIndex];
+      const activeText = texts[activeTextIndex];
+      activeText.filters.push(activeText.fontIndex);
       //if the user is PRO blacklist the font on the server too
       if (user.role === "User") {
-        const font = fonts[texts[activeTextIndex].fontIndex];
+        const font = fonts[activeText.fontIndex];
         blacklistFont(font);
       }
       //to force re-rendering

@@ -53,7 +53,7 @@ function LikedFonts({
             onClick={() => handleRemoveFont(index)}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 text-txt-base"
           >
-            <i className="fa fas-times"></i>
+            <i className="fas fa-times"></i>
           </button>
         </div>
       ))}
