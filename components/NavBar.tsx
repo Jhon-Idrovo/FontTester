@@ -35,8 +35,8 @@ function NavBar() {
                 router.pathname === "/exclusion-list" ? "nav-item-active" : null
               }`}
             >
-              <Link href="/exlcusion-list">
-                <a>Exclusion List</a>
+              <Link href="/disliked">
+                <a>Disliked Fonts</a>
               </Link>
             </li>
             <li

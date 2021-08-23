@@ -8,7 +8,7 @@ import Loading from "../components/Loading";
 import useUser from "../hooks/useUser";
 
 import CategoryFilter from "../components/CategoryFilter";
-import useBlacklistedFonts from "../hooks/useBlacklistedFonts";
+import useDislikedFonts from "../hooks/useDislikedFonts";
 import useGoogleFonts from "../hooks/useGoogleFonts";
 import { IGoogleFont, IText } from "../lib/interfaces";
 import { blacklistFont } from "../lib/utils";
@@ -24,14 +24,31 @@ export default function Home() {
   const { user, isLoadingUser } = useUser();
   //once the user is loaded (if there's one, we need its blacklisted fonts)
   const {
-    error: blFontsError,
-    fonts: blFonts,
-    isLoading: isLoadignBlFonts,
-  } = useBlacklistedFonts();
+    error: dlFontsError,
+    fonts: dlFonts,
+    isLoading: isLoadignDlFonts,
+  } = useDislikedFonts();
+
   const [texts, setTexts] = useState<IText[]>([
-    { fontIndex: 0, filters: blFonts ? blFonts : [] },
-    { fontIndex: 0, filters: blFonts ? blFonts : [] },
+    { fontIndex: 0, filters: [] },
+    { fontIndex: 0, filters: [] },
   ]);
+  useEffect(() => {
+    if (texts[0].filters.length < 1) {
+      const filters = dlFonts
+        ? dlFonts.map(({ font_id }) =>
+            fonts.findIndex((fontObj) => fontObj.family === font_id.family)
+          )
+        : [];
+      setTexts((prev) => {
+        prev.map((text) => (text.filters = filters));
+        return JSON.parse(JSON.stringify(prev));
+      });
+    }
+    // this list should be in sync with the db so there is no
+    // problem if it's reloaded but still can cause trouble for
+    // slow connections
+  }, [dlFonts]);
   const [activeTextIndex, setActiveTextIndex] = useState(0);
   //changes can be -1 or 1
   /**
