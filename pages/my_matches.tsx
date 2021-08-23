@@ -8,18 +8,18 @@ import { useState } from "react";
 import useUser from "../hooks/useUser";
 function Matches() {
   const { user } = useUser();
-  const { likedFonts, error, isLoading, refetch } = useLikedFonts();
-  const [isProcessing, setIsProcessing] = useState(false);
+  const { likedFonts, error, isLoading, isFetching, refetch } = useLikedFonts();
+  const [isProcessing, setIsProcessing] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const deleteLiked = async (matchId: string) => {
-    setIsProcessing(true);
+    setIsProcessing(matchId);
     try {
       await deleteLikedFont(matchId);
       refetch();
     } catch (error) {
       setErrorMsg("Error deleting the match, please try again");
     }
-    setIsProcessing(false);
+    setIsProcessing("");
   };
   if (user.role === "Guest") return <SubscriptionNeeded />;
   if (isLoading)
@@ -52,7 +52,7 @@ function Matches() {
             className="absolute top-1/2 right-2 transform -translate-y-1/2"
             onClick={() => deleteLiked(match._id)}
           >
-            {isProcessing ? (
+            {isProcessing === match._id ? (
               <ButtonLoading />
             ) : (
               <i className="fas fa-times"></i>

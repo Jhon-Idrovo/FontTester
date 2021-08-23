@@ -2,26 +2,24 @@ import { FormEvent, useState } from "react";
 
 import useUser from "../hooks/useUser";
 import axiosInstance from "../lib/axios";
+import ButtonLoading from "./ButtonLoading";
 
 function SignUpForm() {
   const { setUser } = useUser();
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(e);
-    const data = await axiosInstance
-      .post("/auth/signup", {
-        username: (e.target[0] as HTMLInputElement).value,
-        email: e.target[1].value,
-        password: e.target[2].value,
-      })
-      .then((res) => res.data)
-      .catch((err) => {
-        console.log(err.response);
-        setError(err.response.data.error.message);
-        return false;
-      });
-    if (data) {
+    setIsLoading(true);
+    try {
+      const data = await axiosInstance
+        .post("/auth/signup", {
+          username: (e.target[0] as HTMLInputElement).value,
+          email: e.target[1].value,
+          password: e.target[2].value,
+        })
+        .then((res) => res.data);
+
       //update user, tokens and axios instance
       setUser({ ...data.user, role: data.user.role.name });
       const aTkn = data.accessToken;
@@ -29,10 +27,18 @@ function SignUpForm() {
       axiosInstance.defaults.headers.Autorization = "JWT " + aTkn;
       localStorage.setItem("ss", aTkn);
       localStorage.setItem("rr", rTkn);
+    } catch (err) {
+      setError(err.response.data.error.message);
+      return false;
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
-    <form className="bg-secondary text-txt-secondary" onSubmit={handleSubmit}>
+    <form
+      className="bg-secondary text-txt-secondary flex flex-col w-2/4 mx-auto mt-4"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         placeholder="Username"
@@ -57,11 +63,10 @@ function SignUpForm() {
       {error ? (
         <div className="text-alert mx-auto font-medium">{error}</div>
       ) : null}
-      <input
-        type="submit"
-        value="Submit"
-        className="btn px-2 py-0 mx-auto table"
-      />
+      <button className="btn px-2 py-0 mx-auto table">
+        {isLoading ? <ButtonLoading /> : null}
+        Sign Up
+      </button>
     </form>
   );
 }

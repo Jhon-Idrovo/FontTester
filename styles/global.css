@@ -76,6 +76,10 @@ body {
   }
 }
 /* UTILS */
+hr {
+  @apply opacity-50;
+  height: 1px;
+}
 .link {
   @apply text-primary;
 }
@@ -84,7 +88,7 @@ body {
   border-width: 1px;
 }
 .btn {
-  @apply border-primary bg-primary text-txt-primary hover:bg-secondary hover:text-txt-secondary hover:border-ligth rounded-md flex justify-center items-center;
+  @apply whitespace-nowrap border-primary bg-primary text-txt-primary hover:bg-secondary hover:text-txt-secondary hover:border-ligth rounded-md flex justify-center items-center;
   border-width: 1px;
 }
 .btn-red {

@@ -14,7 +14,8 @@ const useLikedFonts = () => {
   return {
     likedFonts,
     error,
-    isLoading: isLoading || isFetching,
+    isLoading,
+    isFetching,
     refetch,
   };
 };

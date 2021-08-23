@@ -33,7 +33,7 @@ const useDislikedFonts = () => {
     {
       enabled: true,
       // refetchOnMount,
-      // refetchOnWindowFocus,
+      refetchOnWindowFocus: false,
     }
   );
   console.log(fonts);

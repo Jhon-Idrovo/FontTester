@@ -139,12 +139,16 @@ export default function Home() {
     const txtCol = (e.target[0] as HTMLInputElement).value;
     const bgCol = e.target[1].value;
     setConfig({ bgCol, txtCol });
+    setIsConfigOpen(false);
   };
   useEffect(() => {
     function clickOutsideHandler(e: MouseEvent) {
+      const parent = document.getElementById("config-menu");
+      console.log(parent, e);
+
       if (
-        (e.currentTarget as HTMLElement)?.id !== "config-menu" &&
-        (e.currentTarget as HTMLElement)?.id !== "config-menu-btn"
+        !parent?.contains(e.target as HTMLElement) &&
+        (e.target as HTMLElement).parentElement?.id !== "config-menu-btn"
       ) {
         setIsConfigOpen(false);
       }
@@ -335,6 +339,7 @@ export default function Home() {
                   <form
                     onSubmit={handleConfigSubmit}
                     className="flex flex-col p-2"
+                    id="config-form"
                   >
                     <label htmlFor="font-color-picker">Font Color</label>
 

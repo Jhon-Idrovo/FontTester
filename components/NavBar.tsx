@@ -36,7 +36,7 @@ function NavBar() {
               }`}
             >
               <Link href="/disliked">
-                <a>Disliked Fonts</a>
+                <a>Unwanted Fonts</a>
               </Link>
             </li>
             <li
@@ -48,7 +48,7 @@ function NavBar() {
                 <a>Saved Matches </a>
               </Link>
             </li>
-            <li
+            {/* <li
               className={`nav-list-item ${
                 router.pathname === "/most-liked" ? "nav-item-active" : null
               }`}
@@ -56,18 +56,20 @@ function NavBar() {
               <Link href="/most-liked">
                 <a>Most Liked</a>
               </Link>
-            </li>
+            </li> */}
 
             <li className="nav-list-item relative">
               <button
                 id="user-icon"
-                className="w-8 h-8 bg-primary text-txt-primary"
+                className="w-8 h-8 bg-primary text-txt-primary rounded-md"
               >
                 {user.username.charAt(0)}
                 <ul className="user-icon-menu absolute right-0 top-8 z-50 bg-secondary text-txt-secondary p-2 w-max">
                   <li>
                     <button onClick={logOut}>Log Out</button>
                   </li>
+
+                  <hr />
                   <li>
                     <button onClick={() => router.push("/subscription")}>
                       Subscription
