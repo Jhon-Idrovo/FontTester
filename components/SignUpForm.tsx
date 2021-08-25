@@ -14,7 +14,7 @@ function SignUpForm() {
     try {
       const data = await axiosInstance
         .post("/auth/signup", {
-          username: (e.target[0] as HTMLInputElement).value,
+          username: e.target[0].value,
           email: e.target[1].value,
           password: e.target[2].value,
         })
