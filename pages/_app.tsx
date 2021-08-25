@@ -34,7 +34,7 @@ const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<IUser>(defaultUser);
   //memoize the value for performance
-  //const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   //check if there is an access token
   useEffect(() => {
     async function handleReload() {
@@ -89,7 +89,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <QueryClientProvider client={queryClient}>
         <Elements stripe={stripePromise}>
-          <UserContext.Provider value={{ user, setUser }}>
+          <UserContext.Provider value={value}>
             <NavBar />
             <Component {...pageProps} />
           </UserContext.Provider>

@@ -8,7 +8,7 @@ import { useState } from "react";
 import useUser from "../hooks/useUser";
 function Matches() {
   const { user } = useUser();
-  const { likedFonts, error, isLoading, isFetching, refetch } = useLikedFonts();
+  const { likedFonts,  isLoading,  refetch } = useLikedFonts();
   const [isProcessing, setIsProcessing] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const deleteLiked = async (matchId: string) => {

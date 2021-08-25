@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import axiosInstance from "../lib/axios";
 import { IGoogleFont } from "../lib/interfaces";

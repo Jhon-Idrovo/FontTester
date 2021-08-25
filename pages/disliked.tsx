@@ -1,4 +1,4 @@
-import { MouseEvent as ReactMouseEvent, useState } from "react";
+import { useState } from "react";
 import ButtonLoading from "../components/ButtonLoading";
 import Loading from "../components/Loading";
 import useDislikedFonts from "../hooks/useDislikedFonts";
@@ -7,15 +7,11 @@ import { deleteDisliked } from "../lib/utils";
 function Disliked() {
   const {
     fonts,
-    error,
     isLoading: isLoadingDislikedFonts,
     refetch,
   } = useDislikedFonts();
   const [processingFonts, setProcessingFonts] = useState<string[]>([]);
-  const handleDeleteDisliked = async (
-    e: ReactMouseEvent<HTMLButtonElement, MouseEvent>,
-    font_userId: string
-  ) => {
+  const handleDeleteDisliked = async (font_userId: string) => {
     setProcessingFonts((prev) => [...prev, font_userId]);
     try {
       await deleteDisliked(font_userId);
@@ -45,7 +41,7 @@ function Disliked() {
           </p>
           <button
             className="absolute top-1/2 right-2 transform -translate-y-1/2"
-            onClick={(e) => handleDeleteDisliked(e, font_user._id)}
+            onClick={() => handleDeleteDisliked(font_user._id)}
           >
             {processingFonts.includes(font_user._id) ? (
               <ButtonLoading />

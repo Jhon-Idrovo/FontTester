@@ -22,7 +22,7 @@ function Subscription() {
   const [priceId, setPriceId] = useState("");
   const [isChangeOpen, setIsChangeOpen] = useState(false);
   const { setUser } = useUser();
-  const { subscriptions, error, isLoadingSubscriptions } =
+  const { subscriptions,  isLoadingSubscriptions } =
     useUserSubscriptions();
 
   const cancelSubscription = async () => {

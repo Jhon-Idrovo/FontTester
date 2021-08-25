@@ -15,11 +15,7 @@ import { blacklistFont } from "../lib/utils";
 
 export default function Home() {
   //fetch google fonts
-  const {
-    googleFonts: fonts,
-    isLoadingGF: isLoadingFonts,
-    GFError,
-  } = useGoogleFonts();
+  const { googleFonts: fonts, isLoadingGF: isLoadingFonts } = useGoogleFonts();
   //--------------------TEXT AREAS ----------------
   const { user, isLoadingUser } = useUser();
   //once the user is loaded (if there's one, we need its blacklisted fonts)
@@ -136,8 +132,8 @@ export default function Home() {
   const [config, setConfig] = useState({ bgCol: "#FFFFFF", txtCol: "#000000" });
   const handleConfigSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const txtCol = (e.target[0] as HTMLInputElement).value;
-    const bgCol = e.target[1].value;
+    const txtCol = (e.target as any[0] as HTMLInputElement).value;
+    const bgCol = (e.target as any[1] as HTMLInputElement).value;
     setConfig({ bgCol, txtCol });
     setIsConfigOpen(false);
   };
