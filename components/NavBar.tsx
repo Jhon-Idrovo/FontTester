@@ -28,11 +28,11 @@ function NavBar() {
             <a>Test Fonts</a>
           </Link>
         </li>
-        {user.role !== "Guest" ? (
+        {user.role === "User" ? (
           <>
             <li
               className={`nav-list-item ${
-                router.pathname === "/exclusion-list" ? "nav-item-active" : null
+                router.pathname === "/disliked" ? "nav-item-active" : null
               }`}
             >
               <Link href="/disliked">
@@ -44,7 +44,7 @@ function NavBar() {
                 router.pathname === "/collections" ? "nav-item-active" : null
               }`}
             >
-              <Link href="/my_matches">
+              <Link href="/my-matches">
                 <a>Saved Matches </a>
               </Link>
             </li>
@@ -79,7 +79,8 @@ function NavBar() {
               </button>
             </li>
           </>
-        ) : (
+        ) : null}
+        {user.role === "Guest" && user._id === "" ? (
           <>
             <li className="nav-list-item">
               <button className="" onClick={() => setIsShowingSignIn(true)}>
@@ -98,7 +99,32 @@ function NavBar() {
               </button>
             </li>
           </>
-        )}
+        ) : null}
+        {/* User authenticated but still not complete subscription process */}
+        {user.role === "Guest" && user._id !== "" ? (
+          <>
+            <li className="nav-list-item relative">
+              <button
+                id="user-icon"
+                className="w-8 h-8 bg-primary text-txt-primary rounded-md"
+              >
+                {user.username.charAt(0)}
+                <ul className="user-icon-menu absolute right-0 top-8 z-50 bg-secondary text-txt-secondary p-2 w-max">
+                  <li>
+                    <button onClick={logOut}>Log Out</button>
+                  </li>
+
+                  <hr />
+                  <li>
+                    <button onClick={() => router.push("/signup")}>
+                      Complete Subscription
+                    </button>
+                  </li>
+                </ul>
+              </button>
+            </li>
+          </>
+        ) : null}
 
         {/* <li className="nav-list-item"><Link href="/trending"><a>Trending</a></Link></li> */}
       </ul>

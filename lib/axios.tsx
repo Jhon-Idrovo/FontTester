@@ -1,7 +1,11 @@
 import axios from "axios";
 
-// const baseURL = "http://localhost:8000/api/v3";
-const baseURL = "https://font-tester-api.herokuapp.com/api/v3";
+let baseURL = `${
+  process.env.NODE_ENV === "production"
+    ? "https://font-tester-api.herokuapp.com"
+    : "http://localhost:8000"
+}/api/v3`;
+
 const axiosInstance = axios.create({
   baseURL,
   headers: {
@@ -9,11 +13,7 @@ const axiosInstance = axios.create({
     Accept: "application/json",
   },
 });
-// axiosInstance.interceptors.request.use((reqConfig) => {
-//   console.log(reqConfig);
-//   reqConfig.headers.Auhtorization = localStorage.getItem("ss");
-//   return reqConfig;
-// });
+
 axiosInstance.interceptors.response.use(
   //on fulfill
   (res) => res,
@@ -77,7 +77,7 @@ axiosInstance.interceptors.response.use(
             });
         } else {
           console.log("Refresh token is expired", tokenParts.exp, now);
-          window.location.href = "/signin/";
+          window.location.href = "/";
         }
       } else {
         console.log("Refresh token not available.");

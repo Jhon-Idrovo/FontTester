@@ -39,7 +39,15 @@ function SignInPopup({ close }: { close: Function }) {
         <button onClick={() => close()} className="absolute top-0 right-1">
           <i className="fas fa-times"></i>
         </button>
-
+        {/* third party */}
+        <button
+          className="rounded-md whitespace-nowrap"
+          style={{ backgroundColor: "blue" }}
+        >
+          <i className="fab fa-facebook-square"></i>
+          Sign in with facebook
+        </button>
+        {/* own method */}
         <form onSubmit={handleSubmit}>
           <h3 className="font-medium text-lg mx-auto table">Sign In</h3>
           <input

@@ -8,7 +8,7 @@ import { useState } from "react";
 import useUser from "../hooks/useUser";
 function Matches() {
   const { user } = useUser();
-  const { likedFonts,  isLoading,  refetch } = useLikedFonts();
+  const { likedFonts, isLoading, refetch } = useLikedFonts();
   const [isProcessing, setIsProcessing] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const deleteLiked = async (matchId: string) => {
@@ -28,6 +28,12 @@ function Matches() {
         <div className="container-full-inner">
           <Loading>{}</Loading>
         </div>
+      </div>
+    );
+  if ((likedFonts.length as number) === 0)
+    return (
+      <div className="aux-message-container">
+        <p>You don't have any font match yet</p>
       </div>
     );
   return (
