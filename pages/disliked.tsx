@@ -40,14 +40,14 @@ function Disliked() {
     );
   return (
     <>
-      {fonts.map((font_user) => (
+      {fonts?.map((font_user) => (
         <link
           key={font_user.font_id.family}
           rel="stylesheet"
           href={`https://fonts.googleapis.com/css?family=${font_user.font_id.family}`}
         />
       ))}
-      {fonts.map((font_user) => (
+      {fonts?.map((font_user) => (
         <div className="card-container relative" key={font_user._id}>
           <p className="" style={{ fontFamily: font_user.font_id.family }}>
             {font_user.font_id.family}
