@@ -2,7 +2,6 @@ import useUser from "../hooks/useUser";
 import PlanSelection from "../components/PlanSelection";
 import SignUpForm from "../components/SignUpForm";
 import React from "react";
-import Link from "next/link";
 import ThirdPartySignIn from "../components/ThirdPartySignIn";
 
 const texts = [
@@ -46,7 +45,7 @@ function SignUp() {
             </div>
           ) : (
             <>
-              <ThirdPartySignIn/>
+              <ThirdPartySignIn />
 
               <SignUpForm />
             </>
