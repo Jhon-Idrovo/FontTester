@@ -32,7 +32,7 @@ function Disliked() {
         </div>
       </div>
     );
-  if (fonts.length === 0)
+  if (fonts?.length === 0)
     return (
       <div className="aux-message-container">
         <p>You don't have any unwanted font yet</p>
@@ -40,6 +40,13 @@ function Disliked() {
     );
   return (
     <>
+      {fonts.map((font_user) => (
+        <link
+          key={font_user.font_id.family}
+          rel="stylesheet"
+          href={`https://fonts.googleapis.com/css?family=${font_user.font_id.family}`}
+        />
+      ))}
       {fonts.map((font_user) => (
         <div className="card-container relative" key={font_user._id}>
           <p className="" style={{ fontFamily: font_user.font_id.family }}>
