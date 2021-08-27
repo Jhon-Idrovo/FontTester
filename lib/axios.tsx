@@ -1,6 +1,11 @@
 import axios from "axios";
-const baseURL = "http://localhost:8000/api/v3";
-//const baseURL = "https://font-tester-api.herokuapp.com/api/v3";
+
+let baseURL = `${
+  process.env.NODE_ENV === "production"
+    ? "https://font-tester-api.herokuapp.com"
+    : "http://localhost:8000"
+}/api/v3`;
+
 const axiosInstance = axios.create({
   baseURL,
   headers: {
