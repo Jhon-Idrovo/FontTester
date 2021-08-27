@@ -5,6 +5,7 @@ import axiosInstance from "../lib/axios";
 import { IRole } from "../lib/interfaces";
 import { decodeJWT } from "../lib/utils";
 import ButtonLoading from "./ButtonLoading";
+import ThirdPartySignIn from "./ThirdPartySignIn";
 
 function SignInPopup({ close }: { close: Function }) {
   const { setUser } = useUser();
@@ -39,17 +40,13 @@ function SignInPopup({ close }: { close: Function }) {
         <button onClick={() => close()} className="absolute top-0 right-1">
           <i className="fas fa-times"></i>
         </button>
+        <h3 className="font-medium text-lg mx-auto table">Sign In</h3>
         {/* third party */}
-        <button
-          className="rounded-md whitespace-nowrap"
-          style={{ backgroundColor: "blue" }}
-        >
-          <i className="fab fa-facebook-square"></i>
-          Sign in with facebook
-        </button>
+
+        <ThirdPartySignIn />
+        <hr className="my-2" />
         {/* own method */}
         <form onSubmit={handleSubmit}>
-          <h3 className="font-medium text-lg mx-auto table">Sign In</h3>
           <input
             type="email"
             id="email-in"

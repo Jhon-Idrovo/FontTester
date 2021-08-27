@@ -1,6 +1,7 @@
 import { QueryObserverResult, RefetchOptions, useQuery } from "react-query";
 import axiosInstance from "../lib/axios";
 import { IGoogleFont } from "../lib/interfaces";
+import useUser from "./useUser";
 type returnObj = {
   error: Error | null;
   isLoading: boolean;
@@ -16,6 +17,7 @@ type returnObj = {
  * returns a list of blacklisted font family names. If not, an empty array.
  */
 const useDislikedFonts = () => {
+  const { user } = useUser();
   const {
     error,
     isLoading,
@@ -29,7 +31,7 @@ const useDislikedFonts = () => {
         .get("/fonts/disliked")
         .then((res) => res.data.dislikedFonts),
     {
-      enabled: true,
+      enabled: user.role === "User",
       // refetchOnMount,
       refetchOnWindowFocus: false,
     }
