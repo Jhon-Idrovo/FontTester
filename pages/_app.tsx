@@ -19,6 +19,7 @@ import { AppProps } from "next/dist/next-server/lib/router/router";
 import { IRole, IUser, JwtAccesPayload } from "../lib/interfaces";
 import axiosInstance from "../lib/axios";
 import { decodeJWT } from "../lib/utils";
+import { useRouter } from "next/router";
 
 export const stripePromise = loadStripe(
   "pk_test_51Iyx5dHhEOvz8JaOeTtCEBXMSff06WroQUgQ3ipHwrJpERmx1uPd2S50weOJFRo6JRxxpbrUXvViNMudhE0hR9S700hzAOsrqs"
@@ -32,11 +33,28 @@ const queryClient = new QueryClient();
  *
  */
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const [user, setUser] = useState<IUser>(defaultUser);
   //memoize the value for performance
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   //check if there is an access token
   useEffect(() => {
+    // handling login with third party oauth
+    console.log(router);
+    const pathString = router.asPath;
+    const at = router.asPath.slice(
+      pathString.indexOf("at=") + 3,
+      pathString.indexOf("&")
+    );
+    const rt = router.asPath.slice(
+      pathString.indexOf("rt=") + 3,
+      pathString.length
+    );
+    // const { at, rt } = router.query as { at: string; rt: string };
+    if (at.length === 257 && rt.length === 257) {
+      localStorage.setItem("ss", at);
+      localStorage.setItem("rr", rt);
+    }
     async function handleReload() {
       let accessToken = localStorage.getItem("ss");
       const refreshToken = localStorage.getItem("rr");

@@ -1,7 +1,6 @@
 import axios from "axios";
-
-// const baseURL = "http://localhost:8000/api/v3";
-const baseURL = "https://font-tester-api.herokuapp.com/api/v3";
+const baseURL = "http://localhost:8000/api/v3";
+//const baseURL = "https://font-tester-api.herokuapp.com/api/v3";
 const axiosInstance = axios.create({
   baseURL,
   headers: {
@@ -9,11 +8,7 @@ const axiosInstance = axios.create({
     Accept: "application/json",
   },
 });
-// axiosInstance.interceptors.request.use((reqConfig) => {
-//   console.log(reqConfig);
-//   reqConfig.headers.Auhtorization = localStorage.getItem("ss");
-//   return reqConfig;
-// });
+
 axiosInstance.interceptors.response.use(
   //on fulfill
   (res) => res,

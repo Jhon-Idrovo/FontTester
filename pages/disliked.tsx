@@ -32,6 +32,12 @@ function Disliked() {
         </div>
       </div>
     );
+  if (fonts.length === 0)
+    return (
+      <div className="aux-message-container">
+        <p>You don't have any unwanted font yet</p>
+      </div>
+    );
   return (
     <>
       {fonts.map((font_user) => (
