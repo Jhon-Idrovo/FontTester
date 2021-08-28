@@ -11,13 +11,15 @@
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.15.0",
     "axios": "^0.21.1",
-    "next": "^10.0.0",
+    "next": "^11.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-paypal-button-v2": "^2.6.3",
     "react-query": "^3.19.6"
   },
   "devDependencies": {
     "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
     "@types/react-query": "^1.2.9",
     "@types/stripe": "^8.0.417",
     "autoprefixer": "^10.3.1",

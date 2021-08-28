@@ -15,11 +15,11 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { defaultUser, UserContext } from "../lib/UserContext";
 
 //
-import { AppProps } from "next/dist/next-server/lib/router/router";
 import { IRole, IUser, JwtAccesPayload } from "../lib/interfaces";
 import axiosInstance from "../lib/axios";
 import { decodeJWT } from "../lib/utils";
 import { useRouter } from "next/router";
+import { AppProps } from "next/dist/shared/lib/router/router";
 
 export const stripePromise = loadStripe(
   "pk_test_51Iyx5dHhEOvz8JaOeTtCEBXMSff06WroQUgQ3ipHwrJpERmx1uPd2S50weOJFRo6JRxxpbrUXvViNMudhE0hR9S700hzAOsrqs"
