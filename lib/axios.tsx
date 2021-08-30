@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let baseURL = `${
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV !== "test"
     ? "https://font-tester-api.herokuapp.com"
     : "http://localhost:8000"
 }/api/v3`;
