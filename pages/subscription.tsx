@@ -127,7 +127,7 @@ function Subscription() {
           <p>
             Please click{" "}
             <Link href={confirmationLink}>
-              <a className="btn px-2 w-max mx-auto"> here</a>
+              <a className="text-primary"> here</a>
             </Link>{" "}
             to confirm your change in PayPal
           </p>
