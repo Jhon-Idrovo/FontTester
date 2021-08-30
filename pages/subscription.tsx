@@ -27,18 +27,18 @@ function Subscription() {
     setIsProcessing("cancel");
     try {
       await axiosInstance.post("/subscriptions/cancel", {
-        subscriptionId: planId,
+        subscriptionId: subscription.id,
       });
-
       setUser((prev) => ({ ...prev, role: "Guest" }));
       localStorage.removeItem("ss");
       localStorage.removeItem("rr");
-      setIsProcessing("");
       setIsShowingConfirmation(false);
       setIsShowingSuccess("cancel");
     } catch (error) {
       setErrorMsg((error as AxiosError).response?.data.error.message);
     }
+
+    setIsProcessing("");
   };
   const changeSubscription = async () => {
     setIsProcessing("change");
@@ -81,6 +81,7 @@ function Subscription() {
               Continue
             </button>
           </div>
+          {errorMsg ? <div className="text-alert">{errorMsg}</div> : null}
         </div>
       </div>
     );
