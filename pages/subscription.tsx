@@ -76,7 +76,10 @@ function Subscription() {
             >
               Stay
             </button>
-            <button className="btn-red ml-2 px-2" onClick={cancelSubscription}>
+            <button
+              className="btn-red ml-2 px-2 w-max"
+              onClick={cancelSubscription}
+            >
               {isProcessing === "cancel" ? <ButtonLoading /> : null}
               Continue
             </button>
@@ -127,7 +130,9 @@ function Subscription() {
           <p>
             Please click{" "}
             <Link href={confirmationLink}>
-              <a className="text-primary"> here</a>
+              <a className="text-primary" target="_blank">
+                here
+              </a>
             </Link>{" "}
             to confirm your change in PayPal
           </p>
