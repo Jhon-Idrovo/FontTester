@@ -24,17 +24,7 @@ export default function PlanSelection() {
   const [isLoading, setIsLoading] = useState(false);
   const elemets = useElements();
   const stripe = useStripe();
-  const cardOptions = {
-    style: {
-      base: {
-        color: "white",
-        "::placeholder": {
-          color: "white",
-        },
-        border: "2px white solid",
-      },
-    },
-  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -117,34 +107,20 @@ export default function PlanSelection() {
       <p className="text-2xl mb-2">
         Select a subscription plan and confirm your payment
       </p>
-      <PlansShowcase setPriceId={setPriceId} priceId={priceId} />
-      <form className="mt-8" onSubmit={handleSubmit}>
-        <CardElement
-          options={cardOptions}
-          className="text-txt-secondary w-full"
-          onChange={handleFormChange}
-        />
-        <button
-          className="btn px-6 py-1 w-max mx-auto mt-8 table"
-          disabled={!user || user._id === "" || priceId === ""}
-        >
-          {isLoading ? <ButtonLoading /> : null}
-          Join
-        </button>
-        {!user || user._id === "" ? (
-          <p className="text-alert w-max mx-auto font-medium">
-            Please create a user first
-          </p>
-        ) : null}
-        {!priceId ? (
-          <p className="text-alert w-max mx-auto font-medium">
-            Please select a plan first
-          </p>
-        ) : null}
-        {errMsg ? (
-          <p className="text-alert w-max mx-auto font-medium">{errMsg}</p>
-        ) : null}
-      </form>
+      <PlansShowcase setPlanId={setPriceId} planId={priceId} />
+      {!user || user._id === "" ? (
+        <p className="text-alert w-max mx-auto font-medium">
+          Please create a user first
+        </p>
+      ) : null}
+      {!priceId ? (
+        <p className="text-alert w-max mx-auto font-medium">
+          Please select a plan first
+        </p>
+      ) : null}
+      {errMsg ? (
+        <p className="text-alert w-max mx-auto font-medium">{errMsg}</p>
+      ) : null}
     </div>
   );
 }

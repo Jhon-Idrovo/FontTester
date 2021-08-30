@@ -1,9 +1,10 @@
+import React, { useState } from "react";
 import useUser from "../hooks/useUser";
 import SignUpForm from "../components/SignUpForm";
-import React from "react";
 import ThirdPartySignIn from "../components/ThirdPartySignIn";
 import PayPal from "../components/PayPal";
 import Script from "next/script";
+import PlansShowcase from "../components/PlansShowcase";
 const texts = [
   {
     t: "Collections",
@@ -20,13 +21,9 @@ const texts = [
 ];
 function SignUp() {
   const { user } = useUser();
-
+  const [planId, setPlanId] = useState("");
   return (
     <div>
-      <Script
-        src="https://www.paypal.com/sdk/js?client-id=ATiEgOT6RsR2dIUzAM4Jg8bbKovztcESnlY_u67t7u2TWQG3hAVes_r4X63S6kbqljhhNtlrK1vtSQzX&currency=USD"
-        strategy="beforeInteractive"
-      ></Script>
       <h1 className="text-txt-base w-max mx-auto mt-8 font-semibold text-3xl">
         UNLOCK A POWERFUL SET OF FUNCTIONALITIES
       </h1>
@@ -50,7 +47,7 @@ function SignUp() {
           ) : (
             <>
               <ThirdPartySignIn />
-
+              <hr className="my-2" />
               <SignUpForm />
             </>
           )}
@@ -59,7 +56,15 @@ function SignUp() {
           <div className="rounded-full w-8 h-8 mx-auto grid place-items-center bg-primary text-txt-primary">
             2
           </div>
-          <PayPal />
+          <p className="text-2xl	">Choose your plan</p>
+          <PlansShowcase planId={planId} setPlanId={setPlanId} />
+          {!user._id ? (
+            <div className="text-alert">Please create a user to continue</div>
+          ) : null}
+          {!planId ? (
+            <div className="text-alert">Please select a plan to continue</div>
+          ) : null}
+          {user._id && planId ? <PayPal planId={planId} /> : null}
         </div>
       </div>
     </div>

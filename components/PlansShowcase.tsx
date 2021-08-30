@@ -1,46 +1,36 @@
 import { Dispatch, SetStateAction } from "react";
-import useSubsPrices from "../hooks/useSubsPrices";
+import usePlans from "../hooks/usePlans";
 import Loading from "./Loading";
 
 export default function PlansShowcase({
-  setPriceId,
-  priceId,
+  setPlanId,
+  planId,
 }: {
-  setPriceId: Dispatch<SetStateAction<string>>;
-  priceId: string;
+  setPlanId: Dispatch<SetStateAction<string>>;
+  planId: string;
 }) {
-  const { prices, pricesError, isLoadingPrices } = useSubsPrices();
-  if (isLoadingPrices) return <Loading>{}</Loading>;
+  const { plans, plansError, isLoadingPlans } = usePlans();
+  if (isLoadingPlans) return <Loading>{}</Loading>;
   return (
     <div className="flex justify-center">
-      {pricesError ? (
+      {plansError ? (
         <p>An error happened while retrieving the data</p>
       ) : (
-        prices.map((priceObj) => (
+        plans.map((planObj) => (
           <button
-            key={priceObj.id}
+            key={planObj.id}
             className={`border-2 p-2 outline-none ${
-              priceId === priceObj.id
-                ? "border-primary"
-                : "border-txt-secondary"
+              planId === planObj.id ? "border-primary" : "border-txt-secondary"
             }`}
-            onClick={() => setPriceId(priceObj.id)}
+            onClick={() => setPlanId(planObj.id)}
           >
-            <h1 className="font-semibold text-2xl">
-              Charge per {priceObj.recurring?.interval}
-            </h1>
+            <h1 className="font-semibold text-2xl">{planObj.displayName}</h1>
             <p>Normal price</p>
             <p className="line-through font-thin text-opacity-50">
-              {priceObj.unit_amount
-                ? "$" + (priceObj.unit_amount / 100) * 1.75
-                : "Price not found"}
+              {"$" + planObj.price * 1.75}
             </p>
             <p>Launching price</p>
-            <p className="font-thin">
-              {priceObj.unit_amount
-                ? "$" + priceObj.unit_amount / 100
-                : "Price not found"}
-            </p>
+            <p className="font-thin">{"$" + planObj.price}</p>
           </button>
         ))
       )}

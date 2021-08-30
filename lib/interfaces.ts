@@ -22,3 +22,8 @@ export declare interface IGoogleFont {
   family: string;
   category: string;
 }
+export declare interface IPlan {
+  id: string;
+  displayName: string;
+  price: number;
+}

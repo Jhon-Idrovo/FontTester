@@ -36,7 +36,7 @@ function SignUpForm() {
   };
   return (
     <form
-      className="bg-secondary text-txt-secondary flex flex-col w-2/4 mx-auto mt-4"
+      className="bg-secondary text-txt-secondary flex flex-col w-2/4 mx-auto"
       onSubmit={handleSubmit}
     >
       <input

@@ -2,26 +2,25 @@ import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import Stripe from "stripe";
 import axiosInstance from "../lib/axios";
+import { IPlan } from "../lib/interfaces";
 
 /**
  *
  * @returns list of price objects
  */
-function useSubsPrices() {
+function usePlans() {
   const { data, error, isLoading, isFetching } = useQuery(
     "prices",
-    () => axiosInstance.get("/subscriptions/prices").then((res) => res.data),
+    () => axiosInstance.get("/subscriptions/plans").then((res) => res.data),
     { refetchOnWindowFocus: false }
   );
   console.log(data);
 
   return {
-    prices: data
-      ? (data.prices.data as Stripe.Price[])
-      : ([] as Stripe.Price[]),
-    pricesError: error as AxiosError,
-    isLoadingPrices: isLoading || isFetching,
+    plans: data ? (data.plans as IPlan[]) : [],
+    plansError: error as AxiosError,
+    isLoadingPlans: isLoading || isFetching,
   };
 }
 
-export default useSubsPrices;
+export default usePlans;

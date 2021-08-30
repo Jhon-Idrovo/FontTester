@@ -1,12 +1,11 @@
 import React from "react";
-import PayPal from "../components/PayPal";
+import usePlans from "../hooks/usePlans";
 
 function Test() {
-  return (
-    <div>
-      <PayPal />
-    </div>
-  );
+  const { plans } = usePlans();
+  console.log(plans);
+
+  return <div></div>;
 }
 
 export default Test;
