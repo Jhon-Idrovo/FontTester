@@ -80,6 +80,15 @@ function NavBar() {
             </li>
           </>
         ) : null}
+        <li
+          className={`nav-list-item ${
+            router.pathname === "/help" ? "nav-item-active" : null
+          }`}
+        >
+          <Link href="/help">
+            <a>Help</a>
+          </Link>
+        </li>
         {user.role === "Guest" && user._id === "" ? (
           <>
             <li className="nav-list-item">
