@@ -3,7 +3,6 @@ import useUser from "../hooks/useUser";
 import SignUpForm from "../components/SignUpForm";
 import ThirdPartySignIn from "../components/ThirdPartySignIn";
 import PayPal from "../components/PayPal";
-import Script from "next/script";
 import PlansShowcase from "../components/PlansShowcase";
 const texts = [
   {

@@ -22,8 +22,7 @@ function Subscription() {
   const [priceId, setPriceId] = useState("");
   const [isChangeOpen, setIsChangeOpen] = useState(false);
   const { setUser } = useUser();
-  const { subscriptions,  isLoadingSubscriptions } =
-    useUserSubscriptions();
+  const { subscriptions, isLoadingSubscriptions } = useUserSubscriptions();
 
   const cancelSubscription = async () => {
     setIsProcessing("cancel");
@@ -110,7 +109,7 @@ function Subscription() {
           >
             <i className="fas fa-times"></i>
           </button>
-          <PlansShowcase priceId={priceId} setPriceId={setPriceId} />
+          <PlansShowcase planId={priceId} setPlanId={setPriceId} />
           {errorMsg ? (
             <p className="text-alert font-medium">{errorMsg}</p>
           ) : null}

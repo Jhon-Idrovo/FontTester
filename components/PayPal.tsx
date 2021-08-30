@@ -9,16 +9,18 @@ import axiosInstance from "../lib/axios";
  */
 function PayPal({ planId }) {
   const router = useRouter();
-  const { user, setUser } = useUser();
+  const {  setUser } = useUser();
   const createSubscription = (data, actions) => {
+    console.log(data);
+    
     return actions.subscription.create({
       plan_id: planId,
     });
   };
   const onApprove = (data, actions) => {
     // Capture the funds from the transaction
+    console.log(data);
     return actions.subscription.get().then(function (details) {
-      console.log(details);
       // Save the data on the db
       axiosInstance.post("/subscriptions/attach", {
         subscriptionId: details.id,
