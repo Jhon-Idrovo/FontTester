@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
 import { useQuery } from "react-query";
-import Stripe from "stripe";
 import axiosInstance from "../lib/axios";
 import { IPlan } from "../lib/interfaces";
 
