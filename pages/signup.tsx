@@ -55,7 +55,7 @@ function SignUp() {
           <div className="rounded-full w-8 h-8 mx-auto grid place-items-center bg-primary text-txt-primary">
             2
           </div>
-          <p className="text-2xl	">Choose your plan</p>
+          <p className="text-2xl	">Choose your plan and get one month FREE</p>
           <PlansShowcase planId={planId} setPlanId={setPlanId} />
           {!user._id ? (
             <div className="text-alert">Please create a user to continue</div>
