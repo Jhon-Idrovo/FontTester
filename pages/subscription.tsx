@@ -1,4 +1,3 @@
-import Stripe from "stripe";
 import axiosInstance from "../lib/axios";
 import Loading from "../components/Loading";
 import { useState } from "react";
@@ -12,23 +11,23 @@ import useUserSubscriptions from "../hooks/useUserSubscriptions";
 function Subscription() {
   const [isShowingConfirmation, setIsShowingConfirmation] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [planOnSelection, setPlanOnSelection] = useState(""); // Plan's id
   const [isProcessing, setIsProcessing] = useState<"change" | "cancel" | "">(
     ""
   );
+  const [confirmationLink, setConfirmationLink] = useState("");
   const [isShowingSuccess, setIsShowingSuccess] = useState<
     "change" | "cancel" | ""
   >("");
-  const [priceId, setPriceId] = useState("");
+  const [planId, setPlanId] = useState("");
   const [isChangeOpen, setIsChangeOpen] = useState(false);
   const { setUser } = useUser();
-  const { subscriptions, isLoadingSubscriptions } = useUserSubscriptions();
+  const { subscription, isLoadingSubscriptions } = useUserSubscriptions();
 
   const cancelSubscription = async () => {
     setIsProcessing("cancel");
     try {
       await axiosInstance.post("/subscriptions/cancel", {
-        subscriptionId: planOnSelection,
+        subscriptionId: planId,
       });
 
       setUser((prev) => ({ ...prev, role: "Guest" }));
@@ -44,14 +43,12 @@ function Subscription() {
   const changeSubscription = async () => {
     setIsProcessing("change");
     try {
-      await axiosInstance.post("/subscriptions/update", {
-        subscriptionId: planOnSelection,
-        priceId,
-        itemId: subscriptions.find(
-          (subscription) => subscription.id === planOnSelection
-        )?.items.data[0].id,
+      const r = await axiosInstance.post("/subscriptions/update", {
+        subscriptionId: subscription.id,
+        newPlanId: planId,
       });
       setIsChangeOpen(false);
+      setConfirmationLink(r.data.activationLink);
       setIsShowingSuccess("change");
     } catch (error) {
       setErrorMsg((error as AxiosError).response?.data.error.message);
@@ -88,7 +85,7 @@ function Subscription() {
       </div>
     );
 
-  if (subscriptions.length === 0)
+  if (!subscription)
     return (
       <div className="container-full">
         <div className="container-full-inner font-medium">
@@ -109,7 +106,7 @@ function Subscription() {
           >
             <i className="fas fa-times"></i>
           </button>
-          <PlansShowcase planId={priceId} setPlanId={setPriceId} />
+          <PlansShowcase planId={planId} setPlanId={setPlanId} />
           {errorMsg ? (
             <p className="text-alert font-medium">{errorMsg}</p>
           ) : null}
@@ -127,12 +124,12 @@ function Subscription() {
       <div className="container-full">
         <div className="container-full-inner w-1/3">
           <p>
-            Subscription change in process, be aware of any email from us.
-            Thanks.
+            Please click{" "}
+            <Link href={confirmationLink}>
+              <a className="btn px-2 w-max mx-auto"> here</a>
+            </Link>{" "}
+            to confirm your change in PayPal
           </p>
-          <Link href={"/"}>
-            <a className="btn px-2 w-max mx-auto">Go home</a>
-          </Link>
         </div>
       </div>
     );
@@ -152,59 +149,46 @@ function Subscription() {
     );
   return (
     <div>
-      {subscriptions.map((subscription: Stripe.Subscription) => (
-        <div className="card-container">
-          <div className=" text-txt-base grid grid-cols-2 grid-rows-2">
-            <div className="subscription-info-item">
-              <h2>Billing cycle:</h2>
-              <p>{subscription.items.data[0].plan.interval}</p>
-            </div>
-            <div className="subscription-info-item">
-              <h2>Amount:</h2>
-              <p>
-                $
-                {subscription.items.data[0].plan.amount
-                  ? subscription.items.data[0].plan.amount / 100
-                  : "Unavailable"}
-              </p>
-            </div>
-            <div className="subscription-info-item">
-              <h2>Active:</h2>
-              <p>{subscription.items.data[0].plan.active ? "Yes" : "No"}</p>
-            </div>
-            <div className="subscription-info-item">
-              <h2>Next payment date:</h2>
-              <p>
-                {new Date(
-                  subscription.current_period_end * 1000
-                ).toLocaleDateString()}
-              </p>
-            </div>
+      <div className="card-container">
+        <div className=" text-txt-base grid grid-cols-2 grid-rows-2">
+          <div className="subscription-info-item">
+            <h2>Billing cycle:</h2>
+            <p>{subscription.billingCycle}</p>
           </div>
-          {errorMsg ? <p className="text-alert">{errorMsg}</p> : null}
-          <div className="flex justify-center items-center my-4">
-            <button
-              className="btn px-2 mr-2"
-              onClick={() => {
-                setIsChangeOpen(true);
-                setPlanOnSelection(subscription.id);
-                setPriceId(subscription.items.data[0].price.id);
-              }}
-            >
-              Change Plan
-            </button>
-            <button
-              className="btn-red px-2 ml-2"
-              onClick={() => {
-                setIsShowingConfirmation(true);
-                setPlanOnSelection(subscription.id);
-              }}
-            >
-              Cancel Subscription
-            </button>
+          <div className="subscription-info-item">
+            <h2>Amount:</h2>
+            <p>${subscription.price ? subscription.price : "Unavailable"}</p>
+          </div>
+          <div className="subscription-info-item">
+            <h2>Susbscription Status:</h2>
+            <p>{subscription.status}</p>
+          </div>
+          <div className="subscription-info-item">
+            <h2>Next payment date:</h2>
+            <p>{subscription.nextBillingDate}</p>
           </div>
         </div>
-      ))}
+        {errorMsg ? <p className="text-alert">{errorMsg}</p> : null}
+        <div className="flex justify-center items-center my-4">
+          <button
+            className="btn px-2 mr-2"
+            onClick={() => {
+              setIsChangeOpen(true);
+              setPlanId(subscription.planId);
+            }}
+          >
+            Change Plan
+          </button>
+          <button
+            className="btn-red px-2 ml-2"
+            onClick={() => {
+              setIsShowingConfirmation(true);
+            }}
+          >
+            Cancel Subscription
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

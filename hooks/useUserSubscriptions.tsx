@@ -2,28 +2,31 @@ import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import Stripe from "stripe";
 import axiosInstance from "../lib/axios";
+import { IResponseSubscription } from "../lib/interfaces";
 import useUser from "./useUser";
 
 const useUserSubscriptions = () => {
   const { user } = useUser();
   const {
-    data: subscriptions,
+    data: subscription,
     isLoading,
     isFetching,
     error,
   } = useQuery(
     "subscription",
-    async () => {
-      return axiosInstance.get("/subscriptions").then((res) => res.data.data);
+    () => {
+      return axiosInstance
+        .get("/subscriptions")
+        .then((res) => res.data.subscription);
     },
     { enabled: user.role === "User" }
   );
   return {
-    subscriptions,
+    subscription,
     isLoadingSubscriptions: isLoading || isFetching,
     error,
   } as {
-    subscriptions: Stripe.Subscription[];
+    subscription: IResponseSubscription;
     error: AxiosError;
     isLoadingSubscriptions: boolean;
   };

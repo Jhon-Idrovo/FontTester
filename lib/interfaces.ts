@@ -27,3 +27,11 @@ export declare interface IPlan {
   displayName: string;
   price: number;
 }
+export declare interface IResponseSubscription {
+  billingCycle: string;
+  price: string;
+  status: string;
+  nextBillingDate: string;
+  id: string;
+  planId: string;
+}
