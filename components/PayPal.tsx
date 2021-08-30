@@ -9,10 +9,10 @@ import axiosInstance from "../lib/axios";
  */
 function PayPal({ planId }) {
   const router = useRouter();
-  const {  setUser } = useUser();
+  const { setUser } = useUser();
   const createSubscription = (data, actions) => {
     console.log(data);
-    
+
     return actions.subscription.create({
       plan_id: planId,
     });
@@ -40,7 +40,7 @@ function PayPal({ planId }) {
       onApprove={onApprove}
       options={{
         clientId:
-          "ATiEgOT6RsR2dIUzAM4Jg8bbKovztcESnlY_u67t7u2TWQG3hAVes_r4X63S6kbqljhhNtlrK1vtSQzX",
+          "AVW-LTc1SYjxqfax3idggkgXGx6LK9J_SieNZMPPZxhQZp1TM3nfsIq893juRmKTMLNNBDjq_bxO9wII",
         currency: "USD",
         vault: true,
         intent: "subscription",
