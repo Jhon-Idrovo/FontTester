@@ -51,10 +51,12 @@ export default function App({ Component, pageProps }: AppProps) {
       pathString.length
     );
     // const { at, rt } = router.query as { at: string; rt: string };
-    if (at.length === 257 && rt.length === 257) {
+    if (at.length > 200 && rt.length > 200) {
       localStorage.setItem("ss", at);
       localStorage.setItem("rr", rt);
     }
+    console.log(at, at.length, rt, rt.length);
+
     async function handleReload() {
       let accessToken = localStorage.getItem("ss");
       const refreshToken = localStorage.getItem("rr");
