@@ -6,13 +6,13 @@ import PayPal from "../components/PayPal";
 import PlansShowcase from "../components/PlansShowcase";
 const texts = [
   {
-    t: "Collections",
+    t: "Matches",
     d: "Save your time by storing the fonts that you love to easily access them later without going througth the selection process again.",
   },
-  {
-    t: "Most Liked",
-    d: "Get inspiration seeing what are the fonts that other designers like the most",
-  },
+  // {
+  //   t: "Most Liked",
+  //   d: "Get inspiration seeing what are the fonts that other designers like the most",
+  // },
   {
     t: "Exluded Fonts",
     d: "Exlude the fonts that you really don’t like from appearing again. This will be applied to every furure font test. You can remove a font from this exclusion list anytime.",
@@ -26,11 +26,12 @@ function SignUp() {
       <h1 className="text-txt-base w-max mx-auto mt-8 font-semibold text-3xl">
         UNLOCK A POWERFUL SET OF FUNCTIONALITIES
       </h1>
-      <div className="grid grid-cols-3 mt-2">
+      <div className="grid grid-cols-2 mt-2">
         {texts.map((f, index) => (
           <FunctionalityShowcase {...f} key={index} />
         ))}
       </div>
+      <hr />
       <div className="grid grid-cols-2 my-12">
         <div className="signup-proccess-section">
           <div className="rounded-full w-8 h-8 mx-auto grid place-items-center bg-primary text-txt-primary">
