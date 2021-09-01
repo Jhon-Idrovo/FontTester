@@ -4,6 +4,7 @@ export declare interface IUser {
   email: string;
   role: IRole;
   _id: string;
+  credits: number;
 }
 
 export declare interface IText {
@@ -15,6 +16,7 @@ export declare interface JwtAccesPayload {
   role: string;
   email: string;
   name: string;
+  credits:number;
   iat: number;
   exp: number;
 }

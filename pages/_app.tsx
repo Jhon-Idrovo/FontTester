@@ -82,8 +82,14 @@ export default function App({ Component, pageProps }: AppProps) {
       if (accessToken) {
         axiosInstance.defaults.headers.Authorization = "JWT " + accessToken;
         payload = decodeJWT(accessToken);
-        const { email, userID, name, role } = payload;
-        setUser({ _id: userID, role: role as IRole, email, username: name });
+        const { email, userID, name, role, credits } = payload;
+        setUser({
+          _id: userID,
+          role: role as IRole,
+          email,
+          username: name,
+          credits,
+        });
       }
     }
     handleReload();

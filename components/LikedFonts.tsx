@@ -5,6 +5,7 @@ import { saveLikedFonts } from "../lib/utils";
 import { IGoogleFont } from "../lib/interfaces";
 import ButtonLoading from "./ButtonLoading";
 
+const saveCreditCost = 1;
 function LikedFonts({
   fonts,
   goBack,
@@ -14,14 +15,16 @@ function LikedFonts({
   goBack: MouseEventHandler;
   handleRemoveFont: Function;
 }) {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const handleSaveFonts = async () => {
     setErrorMsg(""); //resesting
     setIsProcessing(true);
     try {
-      await saveLikedFonts(fonts);
+      await saveLikedFonts(fonts, saveCreditCost);
+      // update credits locally
+      setUser((prev) => ({ ...prev, credits: prev.credits - saveCreditCost }));
     } catch (error) {
       setErrorMsg("Unable to save the fonts on this moment, please try again.");
     }
@@ -66,7 +69,8 @@ function LikedFonts({
             className="btn block mt-8 px-4 w-max mx-auto"
           >
             {isProcessing ? <ButtonLoading /> : null}
-            Save
+            Save {saveCreditCost}
+            <i className="fas fa-coins coin"></i>
           </button>
         </>
       ) : (

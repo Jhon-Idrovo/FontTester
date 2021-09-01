@@ -25,8 +25,8 @@ function SignInPopup({ close }: { close: Function }) {
       localStorage.setItem("ss", accessToken);
       localStorage.setItem("rr", refreshToken);
       axiosInstance.defaults.headers.Authorization = "JWT " + accessToken;
-      const { userID, email, name, role } = decodeJWT(accessToken);
-      setUser({ _id: userID, email, username: name, role: role as IRole });
+      const { userID, email, name, role, credits } = decodeJWT(accessToken);
+      setUser({ _id: userID, email, username: name, role: role as IRole, credits });
       setIsLoading(false);
       close();
     } catch (err) {

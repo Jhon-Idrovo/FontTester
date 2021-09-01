@@ -138,6 +138,9 @@ hr {
 p {
   @apply font-extralight;
 }
+.coin {
+  color: rgba(233, 199, 20, 1);
+}
 /* CATEGORY FILTERS */
 .filter-item {
   @apply font-medium text-xl px-2 cursor-pointer relative overflow-visible;

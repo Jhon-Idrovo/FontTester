@@ -81,14 +81,21 @@ function NavBar() {
                 {user.username.charAt(0)}
                 <ul className="user-icon-menu absolute right-0 top-8 z-50 bg-secondary text-txt-secondary p-2 w-max">
                   <li>
-                    <button onClick={logOut}>Log Out</button>
+                    <button onClick={() => router.push("/credits")}>
+                      {user.credits} <i className="fas fa-coins coin"></i>
+                    </button>
                   </li>
 
                   <hr />
+
                   <li>
-                    <button onClick={() => router.push("/subscription")}>
-                      Subscription
+                    <button onClick={() => router.push("/account")}>
+                      Account
                     </button>
+                  </li>
+                  <hr />
+                  <li>
+                    <button onClick={logOut}>Log Out</button>
                   </li>
                 </ul>
               </button>

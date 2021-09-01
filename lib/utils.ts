@@ -16,8 +16,14 @@ export async function blacklistFont(font: IGoogleFont) {
     return;
   }
 }
-export async function saveLikedFonts(fonts: IGoogleFont[][]) {
-  return await axiosInstance.post("/fonts/save-liked", { likedFonts: fonts });
+export async function saveLikedFonts(
+  fonts: IGoogleFont[][],
+  creditAmount: number
+) {
+  return await axiosInstance.post("/fonts/save-liked", {
+    likedFonts: fonts,
+    creditAmount,
+  });
 }
 /**
  *
