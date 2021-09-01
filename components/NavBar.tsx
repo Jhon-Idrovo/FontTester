@@ -16,7 +16,12 @@ function NavBar() {
   return (
     <nav className=" p-2 h-10 flex justify-between items-center  bg-base text-txt-base border-b-2 border-secondary">
       <Link href="/">
-        <a>Font Tester</a>
+        <a className="flex justify-between text-3xl items-end">
+          <p style={{ fontFamily: "Allura, serif", marginRight: "0.5rem" }}>
+            Font
+          </p>
+          <p style={{ fontFamily: "Abhaya Libre, cursive" }}>Tester</p>
+        </a>
       </Link>
       <ul className="flex justify-between items-center">
         <li
