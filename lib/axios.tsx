@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
       error.response.status === 401 &&
       originalRequest.url === baseURL + "/tokens/new-access-token"
     ) {
-      window.location.href = "/signin";
+      window.location.href = "/";
       alert("Plase signin");
       return Promise.reject(error);
     }

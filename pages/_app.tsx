@@ -48,7 +48,8 @@ export default function App({ Component, pageProps }: AppProps) {
     );
     const rt = router.asPath.slice(
       pathString.indexOf("rt=") + 3,
-      pathString.length
+      // handle google adding a # at the end
+      pathString.includes("#") ? pathString.length - 1 : pathString.length
     );
     // const { at, rt } = router.query as { at: string; rt: string };
     if (at.length > 200 && rt.length > 200) {
@@ -92,7 +93,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content="Web app to interactivily test fonts for any project"
         />
 
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

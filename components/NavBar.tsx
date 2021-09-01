@@ -28,15 +28,7 @@ function NavBar() {
             <a>Test Fonts</a>
           </Link>
         </li>
-        <li
-          className={`nav-list-item ${
-            router.pathname === "/help" ? "nav-item-active" : null
-          }`}
-        >
-          <Link href="/help">
-            <a>Help</a>
-          </Link>
-        </li>
+
         {user.role === "User" ? (
           <>
             <li
@@ -55,6 +47,15 @@ function NavBar() {
             >
               <Link href="/my-matches">
                 <a>Saved Matches </a>
+              </Link>
+            </li>
+            <li
+              className={`nav-list-item ${
+                router.pathname === "/help" ? "nav-item-active" : null
+              }`}
+            >
+              <Link href="/help">
+                <a>Help</a>
               </Link>
             </li>
             {/* <li
@@ -92,6 +93,15 @@ function NavBar() {
 
         {user.role === "Guest" && user._id === "" ? (
           <>
+            <li
+              className={`nav-list-item ${
+                router.pathname === "/help" ? "nav-item-active" : null
+              }`}
+            >
+              <Link href="/help">
+                <a>Help</a>
+              </Link>
+            </li>
             <li className="nav-list-item">
               <button className="" onClick={() => setIsShowingSignIn(true)}>
                 Sign In
@@ -113,6 +123,15 @@ function NavBar() {
         {/* User authenticated but still not complete subscription process */}
         {user.role === "Guest" && user._id !== "" ? (
           <>
+            <li
+              className={`nav-list-item ${
+                router.pathname === "/help" ? "nav-item-active" : null
+              }`}
+            >
+              <Link href="/help">
+                <a>Help</a>
+              </Link>
+            </li>
             <li className="nav-list-item relative">
               <button
                 id="user-icon"
