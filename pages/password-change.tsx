@@ -9,7 +9,6 @@ function PasswordChange() {
     "" | "loading" | "success" | "error"
   >("");
   const [passwords, setPasswords] = useState(["", ""]);
-  const [loading, setLoading] = useState(false);
   const submitHandler = async (e) => {
     e.preventDefault();
     setErrorMsg("");
