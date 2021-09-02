@@ -27,9 +27,9 @@ function PayPal({ price, credits }) {
         // on production use AVW-LTc1SYjxqfax3idggkgXGx6LK9J_SieNZMPPZxhQZp1TM3nfsIq893juRmKTMLNNBDjq_bxO9wII
         clientId:
           // Production
-          //"AVW-LTc1SYjxqfax3idggkgXGx6LK9J_SieNZMPPZxhQZp1TM3nfsIq893juRmKTMLNNBDjq_bxO9wII",
-          // Development
-          "ATiEgOT6RsR2dIUzAM4Jg8bbKovztcESnlY_u67t7u2TWQG3hAVes_r4X63S6kbqljhhNtlrK1vtSQzX",
+          "AVW-LTc1SYjxqfax3idggkgXGx6LK9J_SieNZMPPZxhQZp1TM3nfsIq893juRmKTMLNNBDjq_bxO9wII",
+        // Development
+        //"ATiEgOT6RsR2dIUzAM4Jg8bbKovztcESnlY_u67t7u2TWQG3hAVes_r4X63S6kbqljhhNtlrK1vtSQzX",
         currency: "USD",
       }}
     />
