@@ -63,9 +63,9 @@ function SignUpForm() {
       {error ? (
         <div className="text-alert mx-auto font-medium">{error}</div>
       ) : null}
-      <button className="btn px-2 py-0 mx-auto table">
+      <button className="btn px-4 py-2 mx-auto table mt-2">
         {isLoading ? <ButtonLoading /> : null}
-        Sign Up
+        Join For Free!
       </button>
     </form>
   );

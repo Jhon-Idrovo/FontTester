@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { PayPalButton } from "react-paypal-button-v2";
 import useUser from "../hooks/useUser";
 import axiosInstance from "../lib/axios";
@@ -7,43 +6,30 @@ import axiosInstance from "../lib/axios";
  * @param param0
  * @returns
  */
-function PayPal({ planId }) {
-  const router = useRouter();
+function PayPal({ price, credits }) {
   const { setUser } = useUser();
-  const createSubscription = (data, actions) => {
-    console.log(data);
-
-    return actions.subscription.create({
-      plan_id: planId,
-    });
-  };
-  const onApprove = (data, actions) => {
-    // Capture the funds from the transaction
-    console.log(data);
-    return actions.subscription.get().then(function (details) {
-      // Save the data on the db
-      axiosInstance.post("/subscriptions/attach", {
-        subscriptionId: details.id,
-      });
-      // Show a success message to your buyer
-      alert("Subscription completed");
-      // Handle user state update
-      localStorage.removeItem("ss");
-      setUser((prev) => ({ ...prev, role: "User" }));
-      router.push("/");
-    });
+  const onSuccess = (details, data) => {
+    console.log(details, data);
+    axiosInstance
+      .post("/credits", { credits })
+      .then(() => {
+        setUser((prev) => ({ ...prev, credits: prev.credits + credits }));
+      })
+      .catch((res) => alert(res.response.error.message));
   };
 
   return (
     <PayPalButton
-      createSubscription={createSubscription}
-      onApprove={onApprove}
+      amount={price}
+      shippingPreference="NO_SHIPPING"
+      onSuccess={onSuccess}
       options={{
+        //on development use ATiEgOT6RsR2dIUzAM4Jg8bbKovztcESnlY_u67t7u2TWQG3hAVes_r4X63S6kbqljhhNtlrK1vtSQzX
+        // on production use AVW-LTc1SYjxqfax3idggkgXGx6LK9J_SieNZMPPZxhQZp1TM3nfsIq893juRmKTMLNNBDjq_bxO9wII
         clientId:
+          // Production
           "AVW-LTc1SYjxqfax3idggkgXGx6LK9J_SieNZMPPZxhQZp1TM3nfsIq893juRmKTMLNNBDjq_bxO9wII",
         currency: "USD",
-        vault: true,
-        intent: "subscription",
       }}
     />
   );

@@ -1,7 +1,7 @@
 import useUser from "../hooks/useUser";
 import Link from "next/link";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { saveLikedFonts } from "../lib/utils";
+import { CreditIcon, saveLikedFonts } from "../lib/utils";
 import { IGoogleFont } from "../lib/interfaces";
 import ButtonLoading from "./ButtonLoading";
 
@@ -70,7 +70,7 @@ function LikedFonts({
           >
             {isProcessing ? <ButtonLoading /> : null}
             Save {saveCreditCost}
-            <i className="fas fa-coins coin"></i>
+            {CreditIcon}
           </button>
         </>
       ) : (
@@ -107,9 +107,9 @@ function DisabledBtn() {
       Save
       {isTooltipOpen ? (
         <span className="tooltip ">
-          You need a subscription to unlock this special feature.{" "}
+          You need an account to unlock this special feature.{" "}
           <Link href="/signup">
-            <a className="link">Get one here!</a>
+            <a className="link">Free one here!</a>
           </Link>
         </span>
       ) : null}

@@ -26,17 +26,14 @@ function SignUp() {
       <h1 className="text-txt-base w-max mx-auto mt-8 font-semibold text-3xl">
         UNLOCK A POWERFUL SET OF FUNCTIONALITIES
       </h1>
-      <div className="grid grid-cols-2 mt-2">
+      <div className="grid grid-cols-2 mt-2 max-w-4xl mx-auto">
         {texts.map((f, index) => (
           <FunctionalityShowcase {...f} key={index} />
         ))}
       </div>
-      <hr />
-      <div className="grid grid-cols-2 my-12">
-        <div className="signup-proccess-section">
-          <div className="rounded-full w-8 h-8 mx-auto grid place-items-center bg-primary text-txt-primary">
-            1
-          </div>
+
+      <div className="my-12 flex justify-center">
+        <div className="signup-proccess-section max-w-lg mx-auto">
           <p className="text-2xl	">
             Create an account or sign in with you prefered account
           </p>
@@ -51,20 +48,6 @@ function SignUp() {
               <SignUpForm />
             </>
           )}
-        </div>
-        <div className="signup-proccess-section">
-          <div className="rounded-full w-8 h-8 mx-auto grid place-items-center bg-primary text-txt-primary">
-            2
-          </div>
-          <p className="text-2xl	">Choose your plan and get one month FREE</p>
-          <PlansShowcase planId={planId} setPlanId={setPlanId} />
-          {!user._id ? (
-            <div className="text-alert">Please create a user to continue</div>
-          ) : null}
-          {!planId ? (
-            <div className="text-alert">Please select a plan to continue</div>
-          ) : null}
-          {user._id && planId ? <PayPal planId={planId} /> : null}
         </div>
       </div>
     </div>

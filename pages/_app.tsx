@@ -5,9 +5,6 @@ import Head from "next/head";
 import "../styles/global.css";
 import NavBar from "../components/NavBar";
 
-//stripe
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 //react query
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -20,10 +17,6 @@ import axiosInstance from "../lib/axios";
 import { decodeJWT } from "../lib/utils";
 import { useRouter } from "next/router";
 import { AppProps } from "next/dist/shared/lib/router/router";
-
-export const stripePromise = loadStripe(
-  "pk_test_51Iyx5dHhEOvz8JaOeTtCEBXMSff06WroQUgQ3ipHwrJpERmx1uPd2S50weOJFRo6JRxxpbrUXvViNMudhE0hR9S700hzAOsrqs"
-);
 
 // Create a react-query client
 const queryClient = new QueryClient();
@@ -115,12 +108,10 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <QueryClientProvider client={queryClient}>
-        <Elements stripe={stripePromise}>
-          <UserContext.Provider value={value}>
-            <NavBar />
-            <Component {...pageProps} />
-          </UserContext.Provider>
-        </Elements>
+        <UserContext.Provider value={value}>
+          <NavBar />
+          <Component {...pageProps} />
+        </UserContext.Provider>
         <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </>

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import { useState } from "react";
 import useUser from "../hooks/useUser";
+import { CreditIcon } from "../lib/utils";
 import SignInPopup from "./SignInPopup";
 
 function NavBar() {
@@ -82,7 +83,7 @@ function NavBar() {
                 <ul className="user-icon-menu absolute right-0 top-8 z-50 bg-secondary text-txt-secondary p-2 w-max">
                   <li>
                     <button onClick={() => router.push("/credits")}>
-                      {user.credits} <i className="fas fa-coins coin"></i>
+                      {user.credits} {CreditIcon}
                     </button>
                   </li>
 

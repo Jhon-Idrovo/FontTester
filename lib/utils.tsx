@@ -36,3 +36,4 @@ export async function deleteLikedFont(match_id: string) {
 export async function deleteDisliked(font_userId: string) {
   return axiosInstance.delete("/fonts/delete-disliked/" + font_userId);
 }
+export const CreditIcon = <i className="fas fa-coins coin"></i>;

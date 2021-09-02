@@ -45,6 +45,9 @@ body {
 .user-icon-menu {
   display: none;
 }
+.user-icon-menu > li {
+  @apply px-6 py-2;
+}
 #user-icon:hover > .user-icon-menu {
   display: initial;
 }
@@ -152,7 +155,7 @@ p {
   @apply absolute top-full hidden text-sm bg-secondary text-txt-secondary min-w-max px-2 py-1;
 }
 .tooltip {
-  @apply absolute top-full left-1/2 text-sm bg-secondary text-txt-secondary min-w-max px-2 py-1 transform -translate-x-1/2;
+  @apply absolute top-full left-1/2 text-base bg-secondary text-txt-secondary min-w-max px-2 py-1 transform -translate-x-1/2;
 }
 
 .filter-item:hover span {
