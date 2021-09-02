@@ -1,3 +1,4 @@
+import Link from "next/link";
 import useDislikedFonts from "../hooks/useDislikedFonts";
 import useLikedFonts from "../hooks/useLikedFonts";
 import useUser from "../hooks/useUser";
@@ -39,10 +40,12 @@ function Account() {
         <h2 className="t2">Number of fonts disliked:</h2>
         <p className="text-xl ml-4">{dlFonts?.length}</p>
       </div>
-      {/* <div className="flex justify-around mt-4">
-        <button className="btn py-0 px-2">Change Password</button>
+      <div className="flex justify-around mt-4">
+        <Link href="/password-change">
+          <a className="btn py-0 px-2">Change Password</a>
+        </Link>
         <button className="btn-red py-0 px-2">Delete Account</button>
-      </div> */}
+      </div>
     </div>
   );
 }
