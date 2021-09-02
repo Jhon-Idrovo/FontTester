@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import useUser from "../hooks/useUser";
 import SignUpForm from "../components/SignUpForm";
 import ThirdPartySignIn from "../components/ThirdPartySignIn";
-import PayPal from "../components/PayPal";
-import PlansShowcase from "../components/PlansShowcase";
 const texts = [
   {
     t: "Matches",
@@ -20,7 +18,7 @@ const texts = [
 ];
 function SignUp() {
   const { user } = useUser();
-  const [planId, setPlanId] = useState("");
+
   return (
     <div>
       <h1 className="text-txt-base w-max mx-auto mt-8 font-semibold text-3xl">
