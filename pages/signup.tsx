@@ -21,7 +21,7 @@ function SignUp() {
 
   return (
     <div>
-      <h1 className="text-txt-base w-max mx-auto mt-8 font-semibold text-3xl">
+      <h1 className="text-txt-base w-max mx-auto mt-8 t1">
         UNLOCK A POWERFUL SET OF FUNCTIONALITIES
       </h1>
       <div className="grid grid-cols-2 mt-2 max-w-4xl mx-auto">

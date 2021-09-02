@@ -26,7 +26,13 @@ function SignInPopup({ close }: { close: Function }) {
       localStorage.setItem("rr", refreshToken);
       axiosInstance.defaults.headers.Authorization = "JWT " + accessToken;
       const { userID, email, name, role, credits } = decodeJWT(accessToken);
-      setUser({ _id: userID, email, username: name, role: role as IRole, credits });
+      setUser({
+        _id: userID,
+        email,
+        username: name,
+        role: role as IRole,
+        credits,
+      });
       setIsLoading(false);
       close();
     } catch (err) {
@@ -36,17 +42,17 @@ function SignInPopup({ close }: { close: Function }) {
   };
   return (
     <div className="container-full">
-      <div className="flex flex-col w-min container-full-inner relative">
+      <div className="flex flex-col container-full-inner relative max-w-xs w-2/4">
         <button onClick={() => close()} className="absolute top-0 right-1">
           <i className="fas fa-times"></i>
         </button>
-        <h3 className="font-medium text-lg mx-auto table">Sign In</h3>
+        <h3 className="t1 mx-auto table">Sign In</h3>
         {/* third party */}
 
         <ThirdPartySignIn />
         <hr className="my-2" />
         {/* own method */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col">
           <input
             type="email"
             id="email-in"
@@ -72,7 +78,7 @@ function SignInPopup({ close }: { close: Function }) {
           {error ? (
             <div className="text-alert mx-auto font-medium">{error}</div>
           ) : null}
-          <button type="submit" className="btn px-2 py-0 mx-auto  ">
+          <button type="submit" className="btn px-2 py-0 mx-auto mt-2 ">
             {isLoading ? <ButtonLoading></ButtonLoading> : null}
             Submit
           </button>
