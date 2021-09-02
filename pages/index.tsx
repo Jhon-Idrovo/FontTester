@@ -71,7 +71,7 @@ export default function Home() {
         //take the call out of the tread.
         setTimeout(() => {
           // Check to not make it exponential
-          handleFontChange(Math.abs(change) === 1 ? change * 2 : change + 1);
+          handleFontChange(change > 0 ? change + 1 : change - 1);
         }, 0);
         //overhead for comparission
         return prevTexts;
