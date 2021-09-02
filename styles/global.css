@@ -101,6 +101,9 @@ hr {
 .card-container {
   @apply bg-secondary text-txt-secondary rounded-md mx-2 my-2 p-2;
 }
+.card-container_no-margin {
+  @apply bg-secondary text-txt-secondary rounded-md p-2;
+}
 .container-full {
   @apply flex flex-col justify-center items-center bg-base fixed top-0 left-0 right-0 bottom-0 z-50;
 }
