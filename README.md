@@ -30,9 +30,12 @@ the problem is that if the user reloads, the payment was succesful and the webho
 Trying this when reloading the page:
 if there is a refresh token. Try to fetch the user.
 
+\
 
 ## JOURNAL
+
 # 27/Aug/2021
+
 Starting this version only because stripe doesn't work in my country. But as the mission progreses I aprecciate that this is an opportunitty to learn more about paypal too.
 
 Also this a a test for the client code, that, if I've done it right should be agnostic to this change.

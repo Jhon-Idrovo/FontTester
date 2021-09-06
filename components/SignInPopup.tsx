@@ -6,6 +6,7 @@ import { IRole } from "../lib/interfaces";
 import { decodeJWT } from "../lib/utils";
 import ButtonLoading from "./ButtonLoading";
 import ThirdPartySignIn from "./ThirdPartySignIn";
+import Link from "next/link";
 
 function SignInPopup({ close }: { close: Function }) {
   const { setUser } = useUser();
@@ -75,6 +76,11 @@ function SignInPopup({ close }: { close: Function }) {
             }
             className="bg-secondary-input"
           />
+          <Link href="/recovery">
+            <a className="text-txt-base" onClick={() => close()}>
+              Forgot password?
+            </a>
+          </Link>
           {error ? (
             <div className="text-alert mx-auto font-medium">{error}</div>
           ) : null}
