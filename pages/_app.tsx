@@ -1,22 +1,22 @@
-import { useState, useMemo, useEffect } from "react";
-//Nextjs
-import Head from "next/head";
 //locals
-import "../styles/global.css";
-import NavBar from "../components/NavBar";
+import '../styles/global.css';
 
+import { AppProps } from 'next/dist/shared/lib/router/router';
+//Nextjs
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
 //react query
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-//context
-import { defaultUser, UserContext } from "../lib/UserContext";
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
+import NavBar from '../components/NavBar';
+import axiosInstance from '../lib/axios';
 //
-import { IRole, IUser, JwtAccesPayload } from "../lib/interfaces";
-import axiosInstance from "../lib/axios";
-import { decodeJWT } from "../lib/utils";
-import { useRouter } from "next/router";
-import { AppProps } from "next/dist/shared/lib/router/router";
+import { IRole, IUser, JwtAccesPayload } from '../lib/interfaces';
+//context
+import { defaultUser, UserContext } from '../lib/UserContext';
+import { decodeJWT } from '../lib/utils';
 
 // Create a react-query client
 const queryClient = new QueryClient();
@@ -94,7 +94,7 @@ export default function App({ Component, pageProps }: AppProps) {
           name="description"
           content="Web app to interactivily test fonts for any project"
         />
-
+  <title>Font Tester</title>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {/* font-awesome */}

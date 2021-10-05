@@ -1,17 +1,15 @@
-import Head from "next/head";
-import { FormEvent, KeyboardEventHandler, useEffect, useState } from "react";
+import Head from 'next/head';
+import { FormEvent, KeyboardEventHandler, useEffect, useState } from 'react';
 
-import TextArea from "../components/TextArea";
-import LikedFonts from "../components/LikedFonts";
-import Loading from "../components/Loading";
-
-import useUser from "../hooks/useUser";
-
-import CategoryFilter from "../components/CategoryFilter";
-import useDislikedFonts from "../hooks/useDislikedFonts";
-import useGoogleFonts from "../hooks/useGoogleFonts";
-import { IGoogleFont, IText } from "../lib/interfaces";
-import { blacklistFont } from "../lib/utils";
+import CategoryFilter from '../components/CategoryFilter';
+import LikedFonts from '../components/LikedFonts';
+import Loading from '../components/Loading';
+import TextArea from '../components/TextArea';
+import useDislikedFonts from '../hooks/useDislikedFonts';
+import useGoogleFonts from '../hooks/useGoogleFonts';
+import useUser from '../hooks/useUser';
+import { IGoogleFont, IText } from '../lib/interfaces';
+import { blacklistFont } from '../lib/utils';
 
 export default function Home() {
   //fetch google fonts
@@ -176,7 +174,6 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>FindAFont</title>
         {fonts?.map(({ family }) => (
           <link
             key={family}
