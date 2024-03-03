@@ -225,7 +225,7 @@ export default function Home() {
             onClick={() => handleFontChange(-1)}
             className="absolute top-1/2 left-2 key-btn-col"
           >
-            PREVIOUS
+            PREVIOUS FONT
             <svg
               className="keyboard-icon"
               version="1.1"
