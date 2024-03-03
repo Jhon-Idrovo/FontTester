@@ -1,5 +1,11 @@
 import Head from "next/head";
-import { FormEvent, KeyboardEventHandler, useEffect, useState } from "react";
+import {
+  FormEvent,
+  KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import CategoryFilter from "../components/CategoryFilter";
 import LikedFonts from "../components/LikedFonts";
@@ -128,30 +134,17 @@ export default function Home() {
   //TEXTS CONFIG
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [config, setConfig] = useState({ bgCol: "#FFFFFF", txtCol: "#000000" });
+  const textColorRef = useRef<HTMLInputElement>(null);
+  const bgColorRef = useRef<HTMLInputElement>(null);
   const handleConfigSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const txtCol = (e.target as any[0] as HTMLInputElement).value;
-    const bgCol = (e.target as any[1] as HTMLInputElement).value;
+    const txtCol = textColorRef.current?.value ?? config.txtCol;
+    const bgCol = bgColorRef.current?.value ?? config.bgCol;
+
     setConfig({ bgCol, txtCol });
     setIsConfigOpen(false);
   };
-  useEffect(() => {
-    function clickOutsideHandler(e: MouseEvent) {
-      const parent = document.getElementById("config-menu");
-      console.log(parent, e);
 
-      if (
-        !parent?.contains(e.target as HTMLElement) &&
-        (e.target as HTMLElement).parentElement?.id !== "config-menu-btn"
-      ) {
-        setIsConfigOpen(false);
-      }
-    }
-    document.addEventListener("click", clickOutsideHandler);
-    return () => {
-      document.removeEventListener("click", clickOutsideHandler);
-    };
-  }, []);
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   //SETTING UP LISTENERS FOR THE KEYS
@@ -336,10 +329,20 @@ export default function Home() {
                   >
                     <label htmlFor="font-color-picker">Font Color</label>
 
-                    <input type="color" id="font-color-picker" name="txtCol" />
+                    <input
+                      ref={textColorRef}
+                      type="color"
+                      id="font-color-picker"
+                      name="txtCol"
+                    />
                     <label htmlFor="bg-color-picker">Background Color</label>
 
-                    <input type="color" id="bg-color-picker" name="bgCol" />
+                    <input
+                      ref={bgColorRef}
+                      type="color"
+                      id="bg-color-picker"
+                      name="bgCol"
+                    />
                     <button className="btn px-2 mt-2">Save</button>
                   </form>
                 </li>
