@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
+import { API_URL } from "../lib/constants";
 
 function ThirdPartySignIn() {
   return (
     <div className="flex flex-col justify-center items-center">
-      <Link href="https://fonttester-413418.uc.r.appspot.com/api/v3/auth/twitter">
+      <Link href={`${API_URL}/api/v3/auth/twitter`}>
         <a
           className="third-party-lgn-btn"
           style={{ backgroundColor: "#00acee" }}
@@ -13,7 +14,7 @@ function ThirdPartySignIn() {
           Sign in with Twitter
         </a>
       </Link>
-      <Link href="https://fonttester-413418.uc.r.appspot.com/api/v3/auth/google">
+      <Link href={`${API_URL}/api/v3/auth/google`}>
         <a
           className="third-party-lgn-btn text-txt-ligth"
           style={{ backgroundColor: "white" }}

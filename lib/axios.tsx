@@ -1,9 +1,8 @@
 import axios from "axios";
+import { API_URL } from "./constants";
 
 let baseURL = `${
-  process.env.NODE_ENV !== "development"
-    ? "https://fonttester-413418.uc.r.appspot.com"
-    : "http://localhost:8000"
+  process.env.NODE_ENV !== "development" ? API_URL : "http://localhost:8000"
 }/api/v3`;
 
 const axiosInstance = axios.create({
