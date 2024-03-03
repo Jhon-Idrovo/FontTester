@@ -10,7 +10,6 @@ import useGoogleFonts from "../hooks/useGoogleFonts";
 import useUser from "../hooks/useUser";
 import { IGoogleFont, IText } from "../lib/interfaces";
 import { blacklistFont } from "../lib/utils";
-import Link from "next/link";
 
 export default function Home() {
   //fetch google fonts
