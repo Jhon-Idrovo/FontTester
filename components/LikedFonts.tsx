@@ -43,7 +43,7 @@ function LikedFonts({
   return (
     <div>
       {fonts.map((fontsSet, index) => (
-        <div className="card-container relative">
+        <div className="card-container relative" key={index}>
           {fontsSet.map((font) => (
             <p
               className="text-txt-base px-4"
