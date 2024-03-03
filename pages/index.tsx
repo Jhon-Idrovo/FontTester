@@ -10,6 +10,7 @@ import useGoogleFonts from "../hooks/useGoogleFonts";
 import useUser from "../hooks/useUser";
 import { IGoogleFont, IText } from "../lib/interfaces";
 import { blacklistFont } from "../lib/utils";
+import Link from "next/link";
 
 export default function Home() {
   //fetch google fonts
@@ -371,6 +372,18 @@ export default function Home() {
                 <p>Loading fonts</p>
               </Loading>
             )}
+            {
+              <div className="flex justify-center">
+                <a
+                  href="https://www.loom.com/share/60df635d04e7408e9e1284fc5419c4cd"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-primary"
+                >
+                  Tutorial clicking here
+                </a>
+              </div>
+            }
           </div>
         </main>
       )}
