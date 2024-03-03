@@ -28,6 +28,7 @@ function CategoryFilter({ filters, setTexts, activeTextIndex }) {
       {/* {categories.map((category) => (
         <h2 style={{ fontFamily: category }}>F</h2>
       ))} */}
+      <h2>Filters: </h2>
       {categories.map(({ category, exp }) => (
         <h2
           key={category}

@@ -1,15 +1,15 @@
-import Head from 'next/head';
-import { FormEvent, KeyboardEventHandler, useEffect, useState } from 'react';
+import Head from "next/head";
+import { FormEvent, KeyboardEventHandler, useEffect, useState } from "react";
 
-import CategoryFilter from '../components/CategoryFilter';
-import LikedFonts from '../components/LikedFonts';
-import Loading from '../components/Loading';
-import TextArea from '../components/TextArea';
-import useDislikedFonts from '../hooks/useDislikedFonts';
-import useGoogleFonts from '../hooks/useGoogleFonts';
-import useUser from '../hooks/useUser';
-import { IGoogleFont, IText } from '../lib/interfaces';
-import { blacklistFont } from '../lib/utils';
+import CategoryFilter from "../components/CategoryFilter";
+import LikedFonts from "../components/LikedFonts";
+import Loading from "../components/Loading";
+import TextArea from "../components/TextArea";
+import useDislikedFonts from "../hooks/useDislikedFonts";
+import useGoogleFonts from "../hooks/useGoogleFonts";
+import useUser from "../hooks/useUser";
+import { IGoogleFont, IText } from "../lib/interfaces";
+import { blacklistFont } from "../lib/utils";
 
 export default function Home() {
   //fetch google fonts
@@ -195,7 +195,7 @@ export default function Home() {
         >
           <div className="absolute top-6 w-full flex flex-col items-center">
             <button onClick={doNotShowFont} className="flex items-center">
-              DON'T SHOW AGAIN
+              DISLIKE FONT
               <svg
                 className="keyboard-icon"
                 version="1.1"
@@ -253,7 +253,7 @@ export default function Home() {
             onClick={() => handleFontChange(+1)}
             className="absolute top-1/2 right-6 key-btn-col"
           >
-            NEXT
+            {`NEXT\nFONT`}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -272,7 +272,7 @@ export default function Home() {
             onClick={saveFonts}
             className="absolute bottom-6 flex w-full justify-center items-center"
           >
-            SAVE
+            LIKE FONT
             <svg
               className="keyboard-icon"
               version="1.1"
@@ -300,13 +300,13 @@ export default function Home() {
             onClick={handleShowLiked}
             className="absolute bottom-8 w-max right-4 btn py-2 px-4"
           >
-            Next
+            Next Step
           </button>
           <div
             className={`flex flex-col absolute overflow-y-scroll ${
               isFullScreen
                 ? "top-0 bottom-0 right-0 left-0 z-10"
-                : "top-16 bottom-16 right-24 left-24"
+                : "top-20 bottom-20 right-36 left-36"
             } bg-base border-2 border-txt-base`}
           >
             <div className="flex justify-end mx-1 my-0">
